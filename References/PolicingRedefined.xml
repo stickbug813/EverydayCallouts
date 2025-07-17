@@ -1,0 +1,3224 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PolicingRedefined</name>
+    </assembly>
+    <members>
+        <member name="T:PolicingRedefined.API.BackupAPI">
+            <summary>
+            Handles public methods for interacting with PR's backup system.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.RequestBackup(PolicingRedefined.API.EBackupUnit,PolicingRedefined.Backup.Entities.EBackupResponseCode,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Creates and dispatches the requested unit to the player's current position.
+            For air units refer to <see cref="M:PolicingRedefined.API.BackupAPI.RequestAirBackup(PolicingRedefined.API.EBackupUnit,System.Boolean,System.Boolean,System.Boolean)"/> and for prisoner transport refer to <see cref="M:PolicingRedefined.API.BackupAPI.RequestPoliceTransport(PolicingRedefined.Backup.Entities.EBackupResponseCode,System.Boolean,System.Boolean,System.Boolean)"/>.
+            </summary>
+            <remarks>
+            Calling this method with the 'dispatchAnim' parameter set to 'true' will hold up the fiber (that the method was called on) until the animation is done.
+            </remarks>
+            <param name="unit">The type of unit to request.</param>
+            <param name="responseCode">The response code the unit should use.</param>
+            <param name="dispatchNotif">Whether to display a dispatch request notification.</param>
+            <param name="dispatchAnim">Whether to play a dispatch request animation on the player.</param>
+            <param name="dispatchAudio">Whether to play a dispatch audio after the unit was dispatched.</param>
+            <returns>Whether the dispatch of the unit was successful.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.RequestBackup(PolicingRedefined.API.EBackupUnit,PolicingRedefined.Backup.Entities.EBackupResponseCode,Rage.Vector3,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Creates and dispatches the requested unit to the provided destination.
+            For air units refer to <see cref="M:PolicingRedefined.API.BackupAPI.RequestAirBackup(PolicingRedefined.API.EBackupUnit,System.Boolean,System.Boolean,System.Boolean)"/> and for prisoner transport refer to <see cref="M:PolicingRedefined.API.BackupAPI.RequestPoliceTransport(PolicingRedefined.Backup.Entities.EBackupResponseCode,System.Boolean,System.Boolean,System.Boolean)"/>.
+            </summary>
+            <remarks>
+            Calling this method with the 'dispatchAnim' parameter set to 'true' will hold up the fiber (that the method was called on) until the animation is done.
+            </remarks>
+            <param name="unit">The type of unit requested.</param>
+            <param name="responseCode">The response code the unit should use.</param>
+            <param name="destination">The destination of the unit.</param>
+            <param name="dispatchNotif">Whether to display a dispatch request notification.</param>
+            <param name="dispatchAnim">Whether to play a dispatch request animation on the player.</param>
+            <param name="dispatchAudio">Whether to play a dispatch audio after the unit was dispatched.</param>
+            <returns>Whether the dispatch of the unit was successful.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.RequestTrafficStopBackup(PolicingRedefined.API.EBackupUnit,PolicingRedefined.Backup.Entities.EBackupResponseCode,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Creates and dispatches the requested unit to an active traffic stop.
+            </summary>
+            <remarks>
+            Calling this method with the 'dispatchAnim' parameter set to 'true' will hold up the fiber (that the method was called on) until the animation is done.
+            </remarks>
+            <param name="unit">The type of unit to request.</param>
+            <param name="responseCode">The response code the unit should use.</param>
+            <param name="dispatchNotif">Whether to display a dispatch request notification.</param>
+            <param name="dispatchAnim">Whether to play a dispatch request animation on the player.</param>
+            <param name="dispatchAudio">Whether to play a dispatch audio after the unit was dispatched.</param>
+            <returns>Whether the dispatch of the unit was successful.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.RequestAirBackup(PolicingRedefined.API.EBackupUnit,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Creates and dispatches the requested air unit to the current pursuit.
+            </summary>
+            <param name="unit">The type of air unit (<see cref="F:PolicingRedefined.API.EBackupUnit.LocalAir"/>, <see cref="F:PolicingRedefined.API.EBackupUnit.NooseAir"/>) requested.</param>
+            <param name="dispatchNotif">Whether to display a dispatch request notification.</param>
+            <param name="dispatchAnim">Whether to play a dispatch request animation on the player.</param>
+            <param name="dispatchAudio">Whether to play a dispatch audio after the unit was dispatched.</param>
+            <returns>Whether the dispatch of the air unit was successful.</returns>
+            <remarks>Only available during pursuits.</remarks>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.RequestPoliceTransport(PolicingRedefined.Backup.Entities.EBackupResponseCode,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Creates and dispatches a prisoner transport unit to pick up the nearest arrested suspect.
+            </summary>
+            <param name="responseCode">The response code the unit should use.</param>
+            <param name="dispatchNotif">Whether to display a dispatch request notification.</param>
+            <param name="dispatchAnim">Whether to play a dispatch request animation on the player.</param>
+            <param name="dispatchAudio">Whether to play a dispatch audio after the unit was dispatched.</param>
+            <returns>Whether the dispatch of the prisoner transport was successful.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.RequestPanicBackup(System.Boolean,System.Boolean)">
+            <summary>
+            Creates and dispatches panic backup units to the player's current position.
+            </summary>
+            <param name="dispatchNotif">Whether to display a dispatch request notification.</param>
+            <param name="dispatchAudio">Whether to play a dispatch audio after the unit was dispatched.</param>
+            <returns>Whether the dispatch of the unit was successful.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.RequestPanicBackup(Rage.Vector3,System.Boolean,System.Boolean)">
+            <summary>
+            Creates and dispatches panic backup units to the provided destination.
+            </summary>
+            <param name="destination">The destination of the panic backup.</param>
+            <param name="dispatchNotif">Whether to display a dispatch request notification.</param>
+            <param name="dispatchAudio">Whether to play a dispatch audio after the unit was dispatched.</param>
+            <returns>Whether the dispatch of the unit was successful.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.RequestGroupBackup(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Creates and dispatches defined group backup units to the player's current position.
+            </summary>
+            <remarks>
+            Calling this method with the 'dispatchAnim' parameter set to 'true' will hold up the fiber (that the method was called on) until the animation is done.
+            </remarks>
+            <param name="dispatchNotif">Whether to display a dispatch request notification.</param>
+            <param name="dispatchAnim">Whether to play a dispatch request animation on the player.</param>
+            <param name="dispatchAudio">Whether to play a dispatch audio after the unit was dispatched.</param>
+            <returns>Whether the dispatch of the unit was successful.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.RequestGroupBackup(Rage.Vector3,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Creates and dispatches group backup units to the provided destination.
+            </summary>
+            <remarks>
+            Calling this method with the 'dispatchAnim' parameter set to 'true' will hold up the fiber (that the method was called on) until the animation is done.
+            </remarks>
+            <param name="destination">The destination of the group backup.</param>
+            <param name="dispatchNotif">Whether to display a dispatch request notification.</param>
+            <param name="dispatchAnim">Whether to play a dispatch request animation on the player.</param>
+            <param name="dispatchAudio">Whether to play a dispatch audio after the unit was dispatched.</param>
+            <returns>Whether the dispatch of the unit was successful.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.RequestSpikeStripsBackup(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Creates and dispatches a spike strips units to intercept a pursuit vehicle.
+            </summary>
+            <param name="dispatchNotif">Whether to display a dispatch request notification.</param>
+            <param name="dispatchAnim">Whether to play a dispatch request animation on the player.</param>
+            <param name="dispatchAudio">Whether to play a dispatch audio after the unit was dispatched.</param>
+            <returns>Whether the dispatch of the unit was successful.</returns>
+            <remarks>Only available during pursuits.</remarks>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.RequestTowServiceBackup">
+            <summary>
+            Opens a UI menu where the player is able to choose what tow truck type it wants.
+            Upon selecting the plugin will attempt to get the nearest vehicle and send the desired unit to tow it.
+            </summary>
+            <returns>Returns 'false' when the menu is already open.</returns>
+            <remarks>Will always show a dispatch notification and play a dispatch anim/audio.</remarks>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.InitiateFelonyStop">
+            <summary>
+            Opens a UI menu where the player is able to choose in which mode the felony stop should be started.
+            </summary>
+            <returns>Returns 'false' when there is no traffic stop, the menu is already open or a felony stop is already active.</returns>
+            <remarks>Does not show any dispatch notification nor plays a dispatch anim/audio.</remarks>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.DismissAllBackupUnits(System.Boolean)">
+            <summary>
+            Dismisses all active and responding backup units.
+            </summary>
+            <param name="force">If true, it will clear the unit's tasks instead of waiting until a running task finished.</param>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.SpawnLocalBackup(PolicingRedefined.API.EBackupUnit,Rage.Vector3,Rage.Vehicle@,System.Collections.Generic.List{Rage.Ped}@)">
+            <summary>
+            Spawns a local variation of the requested unit at the specified position.
+            </summary>
+            <remarks>
+            This method only spawns the entities into the world without any handling or AI by PR.
+            </remarks>
+            <param name="unit">The unit to spawn.</param>
+            <param name="position">The position to get the local variation at and to spawn the unit at.</param>
+            <param name="unitVehicle">The spawned vehicle of the unit.</param>
+            <param name="unitPeds">The spawned peds of the unit.</param>
+            <returns>Whether the unit was spawned. Make sure to verify the existence of the entities.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.SpawnLocalBackup(PolicingRedefined.API.EBackupUnit,Rage.Vector3,Rage.Vector3,Rage.Vehicle@,System.Collections.Generic.List{Rage.Ped}@)">
+            <summary>
+            Spawns a position-local variation of the requested unit at the specified spawn position.
+            </summary>
+            <remarks>
+            This method only spawns the entities into the world without any handling or AI by PR.
+            </remarks>
+            <param name="unit">The unit to spawn.</param>
+            <param name="position">The position to get the local variation at.</param>
+            <param name="spawnPosition">The position to spawn the unit at.</param>
+            <param name="unitVehicle">The spawned vehicle of the unit.</param>
+            <param name="unitPeds">The spawned peds of the unit.</param>
+            <returns>Whether the unit was spawned. Make sure to verify the existence of the entities.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.SpawnLocalBackupVehicle(PolicingRedefined.API.EBackupUnit,Rage.Vector3,System.Single)">
+            <summary>
+            Spawns a local vehicle variation of the requested unit at the specified position.
+            </summary>
+            <param name="unit">The unit to get the vehicle from.</param>
+            <param name="position">The position to get the local variation at and to spawn the vehicle at.</param>
+            <param name="heading">The heading of the vehicle.</param>
+            <returns>The spawned <see cref="T:Rage.Vehicle"/> or null. Make sure to verify the existence of the vehicle.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.SpawnLocalBackupVehicle(PolicingRedefined.API.EBackupUnit,Rage.Vector3,Rage.Vector3,System.Single)">
+            <summary>
+            Spawns a position-local vehicle variation of the requested unit at the specified spawn position.
+            </summary>
+            <param name="unit">The unit to get the vehicle from.</param>
+            <param name="position">The position to get the local variation at.</param>
+            <param name="spawnPosition">The position to spawn the vehicle at.</param>
+            <param name="heading">The heading of the vehicle.</param>
+            <returns>The spawned <see cref="T:Rage.Vehicle"/> or null. Make sure to verify the existence of the vehicle.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.SpawnLocalBackupPeds(PolicingRedefined.API.EBackupUnit,Rage.Vector3,System.Single,System.Int32,System.Boolean)">
+            <summary>
+            Spawns local ped variations of the requested unit at the specified position.
+            Each ped is a randomized variant.
+            </summary>
+            <param name="unit">The unit to get the peds from.</param>
+            <param name="position">The position to get the location variation at.</param>
+            <param name="heading">The heading of the peds.</param>
+            <param name="amount">The amount of peds to spawn.</param>
+            <param name="equipWeapons">Whether to equip the peds with weapons from the local variation.</param>
+            <returns>The spawned <see cref="T:Rage.Ped"/>[] or an empty array. Make sure to verify the existence of each ped.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.BackupAPI.SpawnLocalBackupPeds(PolicingRedefined.API.EBackupUnit,Rage.Vector3,Rage.Vector3,System.Single,System.Int32,System.Boolean)">
+            <summary>
+            Spawns a position-local ped variation of the requested unit at the specified spawn position.
+            Each ped is a randomized variant.
+            </summary>
+            <param name="unit">The unit to get the peds from.</param>
+            <param name="position">The position to get the location variation at.</param>
+            <param name="spawnPosition">The position to spawn the peds at.</param>
+            <param name="heading">The heading of the peds.</param>
+            <param name="amount">The amount of peds to spawn.</param>
+            <param name="equipWeapons">Whether to equip the peds with weapons from the local variation.</param>
+            <returns>The spawned <see cref="T:Rage.Ped"/>[] or an empty array. Make sure to verify the existence of each ped.</returns>
+        </member>
+        <member name="T:PolicingRedefined.API.EBackupUnit">
+            <summary>
+            Represents all requestable backup units.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.LocalPatrol">
+            <summary>
+            Refers to a local patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.LocalFemalePatrol">
+            <summary>
+            Refers to a local patrol unit but with only female officers.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.StatePatrol">
+            <summary>
+            Refers to a state patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.StateFemalePatrol">
+            <summary>
+            Refers to a state patrol unit but with only female officers.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.LocalSWAT">
+            <summary>
+            Refers to a local SWAT unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.NooseSWAT">
+            <summary>
+            Refers to a NOOSE SWAT unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.LocalK9Patrol">
+            <summary>
+            Refers to a local K9 patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.StateK9Patrol">
+            <summary>
+            Refers to a state K9 patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.LocalAir">
+            <summary>
+            Refers to a local air unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.NooseAir">
+            <summary>
+            Refers to a NOOSE air unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.PoliceTransport">
+            <summary>
+            Refers to a local prisoner transport unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.Ambulance">
+            <summary>
+            Refers to a EMS unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.FireDepartment">
+            <summary>
+            Refers to a fire unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.Coroner">
+            <summary>
+            Refers to a coroner unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.SmallTowTruck">
+            <summary>
+            Refers to a small tow truck unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.LargeTowTruck">
+            <summary>
+            Refers to a large tow truck unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.FlatbedTowTruck">
+            <summary>
+            Refers to a flatbed tow truck unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EBackupUnit.AnimalControl">
+            <summary>
+            Refers to an animal control unit.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.API.PedDelegate">
+            <param name="ped">The ped belonging to the event.</param>
+        </member>
+        <member name="T:PolicingRedefined.API.PedArrestedDelegate">
+            <param name="ped">The ped that was arrested.</param>
+            <param name="officer">The officer that performed the arrest.</param>
+            <param name="frontCuffs">Whether the ped's cuffs were put on their back or their front.</param>
+        </member>
+        <member name="T:PolicingRedefined.API.TrafficStopDelegate">
+            <param name="ped">The ped referenced in traffic stop event. Note: This can also be a passenger.</param>
+            <param name="vehicle">The vehicle belonging to the traffic stop.</param>
+            <param name="onFootTrafficStop">Whether it is an on-foot traffic stop. See <see cref="T:PolicingRedefined.API.OnFootTrafficStopAPI"/> for more info.</param>
+        </member>
+        <member name="T:PolicingRedefined.API.VehicleStopDelegate">
+            <param name="vehicle">The stopped vehicle.</param>
+        </member>
+        <member name="T:PolicingRedefined.API.PedInfoDelegate">
+            <param name="ped">The ped being run through dispatch.</param>
+        </member>
+        <member name="T:PolicingRedefined.API.VehicleInfoDelegate">
+            <param name="vehicle">The vehicle being run through dispatch.</param>
+            <param name="fromVin">Whether a vin was used when running the info instead of a plate.</param>
+        </member>
+        <member name="T:PolicingRedefined.API.IdentificationGivenDelegate">
+            <param name="ped">The ped that identified themselves.</param>
+            <param name="givenIdentification">The type of identification that the ped gave to the player.</param>
+        </member>
+        <member name="T:PolicingRedefined.API.EventsAPI">
+            <summary>
+            Handles (almost) all events throughout the plugin.
+            </summary>
+            <seealso cref="T:PolicingRedefined.API.OnFootTrafficStopAPI"/> More events here.
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnPedSurrendered">
+            <summary>
+            Invoked when a ped surrenders after e.g. being tazed.
+            </summary>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnPedPatDown">
+            <summary>
+            Invoked when a ped was pat down.
+            </summary>
+            <remarks>This is not invoked when a dead ped was searched.</remarks>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnDeadPedSearched">
+            <summary>
+            Invoked when a peds dead body is searched
+            </summary>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnPedArrested">
+            <summary>
+            Invoked when a ped was arrested through PR's system.
+            </summary>
+            <remarks>Note: This is not invoked when a ped was arrested through LSPDFR.</remarks>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnPedStopped">
+            <summary>
+            Invoked when a ped was stopped.
+            </summary>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnPedReleased">
+            <summary>
+            Invoked when a stopped ped was released.
+            </summary>
+            <remarks>Note: The released ped might not exist in the game world anymore.</remarks>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnPedAskedToExitVehicle">
+            <summary>
+            Invoked when a ped was asked to exit the vehicle on a traffic stop.
+            </summary>
+            <remarks>Note: This can also be a passenger, it doesn't need to be the driver.</remarks>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnDriverAskedToTurnOffEngine">
+            <summary>
+            Invoked when the driver was asked to turn off the engine on a traffic stop.
+            </summary>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnVehicleStopped">
+            <summary>
+            Invoked when a vehicle was stopped.
+            </summary>
+            <seealso cref="M:PolicingRedefined.API.VehicleAPI.SetCanVehicleBeStopped(Rage.Vehicle,System.Boolean)"/>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnIdentificationGiven">
+            <summary>
+            Invoked when ped gives the player an ID or driver's license.
+            </summary>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnDriverIdentificationGiven">
+            <summary>
+            Invoked when driver of stopped vehicle gives the player an ID or driver's license.
+            </summary>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnOccupantIdentificationGiven">
+            <summary>
+            Invoked when passenger of stopped vehicle gives the player an ID or driver's license.
+            </summary>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnRequestPedCheck">
+            <summary>
+            Invoked when the player requests dispatch to run a peds info
+            </summary>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnPedRanThroughDispatch">
+            <summary>
+            Invoked when dispatch responds to the players request with info
+            </summary>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnRequestVehicleCheck">
+            <summary>
+            Invoked when the player requests dispatch to run a vehicles info
+            </summary>
+        </member>
+        <member name="E:PolicingRedefined.API.EventsAPI.OnVehicleRanThroughDispatch">
+            <summary>
+            Invoked when dispatch responds to the players request with info
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.API.EGivenIdentification">
+            <summary>
+            Represents the type of identification given by a ped.
+            </summary>
+            <seealso cref="T:PolicingRedefined.API.IdentificationGivenDelegate"/>
+        </member>
+        <member name="F:PolicingRedefined.API.EGivenIdentification.ID">
+            <summary>
+            The ped gave an ID card.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.API.EGivenIdentification.DriversLicense">
+            <summary>
+            The ped gave a driver's license.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.API.OnFootTrafficStopDelegate">
+            <param name="handle">The on-foot traffic stop this event was fired.</param>
+        </member>
+        <member name="T:PolicingRedefined.API.OnFootTrafficStopAPI">
+            <summary>
+            Handles public methods for interacting with PR's on-foot traffic stops.
+            </summary>
+        </member>
+        <member name="E:PolicingRedefined.API.OnFootTrafficStopAPI.OnFootTrafficStopStarted">
+            <summary>
+            Invoked when the player starts an on-foot traffic stop.
+            </summary>
+        </member>
+        <member name="E:PolicingRedefined.API.OnFootTrafficStopAPI.OnFootTrafficStopEnded">
+            <summary>
+            Invoked when an on-foot traffic stop ends.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.API.OnFootTrafficStopAPI.GetCurrentOnFootTrafficStop">
+            <summary>
+            Gets the current on-foot traffic stop the player is on.
+            </summary>
+            <returns>The handle for the on-foot traffic stop.</returns>
+            <remarks>Returns 'null' if player is not on one.</remarks>
+        </member>
+        <member name="M:PolicingRedefined.API.OnFootTrafficStopAPI.IsOnAnyFootTrafficStop">
+            <summary>
+            Returns whether the player is currently on an on-foot traffic stop.
+            </summary>
+            <returns>True if the player is on an on-foot traffic stop.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.OnFootTrafficStopAPI.IsOnFootTrafficStop(PolicingRedefined.Engine.Entities.PRHandle)">
+            <summary>
+            Returns whether the player is currently on the specified on-foot traffic stop.
+            </summary>
+            <param name="handle">The handle for the on-foot traffic stop that should be checked.</param>
+            <returns>True if the player is on the specified on-foot traffic stop.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.OnFootTrafficStopAPI.GetOnFootTrafficStopVehicle(PolicingRedefined.Engine.Entities.PRHandle)">
+            <summary>
+            Gets the main vehicle of the specified on-foot traffic stop.
+            </summary>
+            <param name="handle">The handle for the on-foot traffic stop.</param>
+            <returns>The vehicle of the on-foot traffic stop.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.OnFootTrafficStopAPI.GetOnFootTrafficStopSuspect(PolicingRedefined.Engine.Entities.PRHandle)">
+            <summary>
+            Gets the main suspect of the specified on-foot traffic stop.
+            </summary>
+            <param name="handle">The handle for the on-foot traffic stop.</param>
+            <returns>The suspect of the on-foot traffic stop.</returns>
+            <remarks>This the original driver of the vehicle that the on-foot traffic stop was initiated with.</remarks>
+        </member>
+        <member name="T:PolicingRedefined.API.PedAPI">
+            <summary>
+            Handles public methods for interacting with PR's ped system.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GetPedMood(Rage.Ped)">
+            <summary>
+            Gets the mood of the specified ped during questioning. 
+            </summary>
+            <param name="ped">The ped to get the mood of.</param>
+            <returns>The current mood of the ped.</returns>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.PedAttributes.EPedMood"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedMood(Rage.Ped,PolicingRedefined.Interaction.Assets.PedAttributes.EPedMood)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.IsPedDrunk(Rage.Ped)">
+            <summary>
+            Gets whether the specified ped is drunk.
+            </summary>
+            <param name="ped">The ped to check.</param>
+            <returns>True if the ped's BAC is above 0.</returns>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedDrunk(Rage.Ped,PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel,System.Boolean)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GetPedBAC(Rage.Ped)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GetPedBAC(Rage.Ped)">
+            <summary>
+            Get the blood alcohol concentration of the specified ped.
+            </summary>
+            <param name="ped">The ped to get the BAC of.</param>
+            <returns>The BAC of the ped.</returns>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedDrunk(Rage.Ped,System.Single,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.IsPedHigh(Rage.Ped)">
+            <summary>
+            Gets whether the specified ped is high.
+            </summary>
+            <param name="ped">The ped to check.</param>
+            <returns>True if the ped is on any drug.</returns>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedHigh(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedHigh(Rage.Ped,PolicingRedefined.Interaction.Assets.EDrugType)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GetDrugsPedIsOn(Rage.Ped)">
+            <summary>
+            Gets the drugs the specified ped is on.
+            </summary>
+            <param name="ped">The ped to check.</param>
+            <returns>The drugs that the ped is on.</returns>
+            <remarks>This is enum is a flag as a ped can be on multiple flags. You need to extract the flags from the returned value.</remarks>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EDrugType"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedHigh(Rage.Ped,PolicingRedefined.Interaction.Assets.EDrugType)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.IsPedStopped(Rage.Ped)">
+            <summary>
+            Gets whether the specified ped is stopped by PR.
+            </summary>
+            <param name="ped">The ped to check.</param>
+            <returns>True if the ped is stopped.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.IsPedArrested(Rage.Ped)">
+            <summary>
+            Gets whether the specified ped is arrested by PR.
+            </summary>
+            <param name="ped">The ped to check.</param>
+            <returns>True if the ped is arrested.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetPedMood(Rage.Ped,PolicingRedefined.Interaction.Assets.PedAttributes.EPedMood)">
+            <summary>
+            Sets the mood of the specified ped during questioning. 
+            </summary>
+            <param name="ped">The ped to set the mood of.</param>
+            <param name="mood">The new mood to set.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.PedAttributes.EPedMood"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GetPedMood(Rage.Ped)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetPedDrunk(Rage.Ped,PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel,System.Boolean)">
+            <summary>
+            Makes the specified ped drunk.
+            </summary>
+            <param name="ped">The ped to set as drunk.</param>
+            <param name="drunkLevel">How drunk the ped should be.</param>
+            <param name="setWalkstyle">Whether to change the walkstyle of the ped based on the drunk level. True by default.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.IsPedDrunk(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedDrunk(Rage.Ped,System.Single,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetPedDrunk(Rage.Ped,System.Single,System.Boolean)">
+            <summary>
+            Makes the specified ped drunk by changing the BAC.
+            </summary>
+            <param name="ped">The ped to change the BAC of.</param>
+            <param name="amountInBac">The BAC amount to set.</param>
+            <param name="setWalkstyle"></param>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.IsPedDrunk(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedDrunk(Rage.Ped,PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetPedHigh(Rage.Ped)">
+            <summary>
+            Makes the specified ped high on a random drug.
+            </summary>
+            <param name="ped">The ped to set as high.</param>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.IsPedHigh(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GetDrugsPedIsOn(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedHigh(Rage.Ped,PolicingRedefined.Interaction.Assets.EDrugType)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetPedHigh(Rage.Ped,PolicingRedefined.Interaction.Assets.EDrugType)">
+            <summary>
+            Makes the specified ped high on specific drugs.
+            </summary>
+            <param name="ped">The ped to set as high.</param>
+            <param name="drugType">The drugs the ped should be high on.</param>
+            <remarks>The enum is marked as flags and therefore the ped can be set to be high on multiple drugs.</remarks>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EDrugType"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.IsPedHigh(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GetDrugsPedIsOn(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedHigh(Rage.Ped)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GetPedHasBeenPatDown(Rage.Ped)">
+            <summary>
+            Gets whether the specified ped has been searched.
+            </summary>
+            <param name="ped">The ped to check.</param>
+            <returns>True if the ped has been searched.</returns>
+            <remarks>Note that this is also true when the ped is dead and was then searched (in contrast to <see cref="T:PolicingRedefined.API.EventsAPI"/> pat down event).</remarks>
+            <seealso cref="T:PolicingRedefined.API.SearchItemsAPI"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.IsPedResistingRightNow(Rage.Ped)">
+            <summary>
+            Gets whether the specified ped is executing a resistance action right now.
+            </summary>
+            <param name="ped">The ped to check.</param>
+            <returns>True if the ped is resisting right now.</returns>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GetPedResistanceChance(Rage.Ped)">
+            <summary>
+            Gets the probability for the specified ped to resist.
+            </summary>
+            <param name="ped">The ped to check.</param>
+            <returns>The chance that the ped will resist (0 to 100).</returns>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedResistanceChance(Rage.Ped,System.Int32)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetPedResistanceChance(Rage.Ped,System.Int32)">
+            <summary>
+            Sets the probability for the specified ped to resist.
+            </summary>
+            <param name="ped">The ped to check.</param>
+            <param name="chance">The chance that the ped will resist (0 to 100).</param>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GetPedResistanceChance(Rage.Ped)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GetPedResistanceAction(Rage.Ped)">
+            <summary>
+            Gets the resistance type of the specified ped.
+            </summary>
+            <param name="ped">The ped to get the resistance type of.</param>
+            <returns>The resistance type of the ped.</returns>
+            <seealso cref="T:PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedResistanceAction(Rage.Ped,PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedResistanceAction(Rage.Ped,PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetPedResistanceAction(Rage.Ped,PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction)">
+            <summary>
+            Sets the resistance type of the specified ped.
+            </summary>
+            <param name="ped">The ped to set the resistance type of.</param>
+            <param name="resistanceAction">The resistance type the ped should use.</param>
+            <returns>True if the resistance action was changed successfully.</returns>
+            <remarks>
+            Returns false when the ped is executing a resistance action right now, the resistance action was set to be
+            kept <see cref="M:PolicingRedefined.API.PedAPI.SetPedResistanceAction(Rage.Ped,PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction,System.Boolean)"/> or when the ped is arrested <see cref="M:PolicingRedefined.API.PedAPI.IsPedArrested(Rage.Ped)"/>
+            and the requested resistance action was something else than <see cref="F:PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction.None"/> and <see cref="F:PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction.Uncooperative"/>.
+            </remarks>
+            <seealso cref="T:PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GetPedResistanceAction(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedResistanceAction(Rage.Ped,PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetPedResistanceAction(Rage.Ped,PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction,System.Boolean)">
+            <summary>
+            Sets the resistance type of the specified ped.
+            </summary>
+            <param name="ped">The ped to set the resistance type of.</param>
+            <param name="resistanceAction">The resistance type the ped should use.</param>
+            <param name="keepResistanceAction">Whether this resistance action should be forced for the ped. See <see cref="M:PolicingRedefined.API.PedAPI.GetKeepResistanceAction(Rage.Ped)"/> for more info.</param>
+            <returns>True if the resistance action was changed successfully.</returns>
+            <remarks>See <see cref="M:PolicingRedefined.API.PedAPI.SetPedResistanceAction(Rage.Ped,PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction)"/>
+            for more information on the return result.</remarks>
+            <seealso cref="T:PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GetPedResistanceAction(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedResistanceAction(Rage.Ped,PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetKeepResistanceAction(Rage.Ped,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GetShouldWalkAwayBeforeResisting(Rage.Ped)">
+            <summary>
+            Gets whether the specified ped will walk away from the officer shortly before starting the resistance action.
+            </summary>
+            <param name="ped">The ped to check.</param>
+            <returns>True if the ped will walk away before resisting.</returns>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetShouldWalkAwayBeforeResisting(Rage.Ped,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetShouldWalkAwayBeforeResisting(Rage.Ped,System.Boolean)">
+            <summary>
+            Sets whether the specified ped will walk away from the officer shortly before starting the resistance action.
+            </summary>
+            <param name="ped">The ped to set the flag for.</param>
+            <param name="walkAwayFirst">Whether the ped should walk away.</param>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GetShouldWalkAwayBeforeResisting(Rage.Ped)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GetKeepResistanceAction(Rage.Ped)">
+            <summary>
+            Gets whether the specified ped should keep their set resistance action.
+            For example: When the ped's resistance action is set to <see cref="F:PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction.Uncooperative"/> and the player attempts
+            to interact with the ped a few times, then there is a chance that the ped will change their resistance action and e.g. attack the player.
+            However, when 'KeepResistanceAction' is set to true then the ped will not change their resistance action, no matter how often the player attempts to
+            interact with the uncooperative ped.
+            </summary>
+            <param name="ped">Ped to get the flag for.</param>
+            <returns>True if the ped should keep their resistance action.</returns>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetKeepResistanceAction(Rage.Ped,System.Boolean)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedResistanceAction(Rage.Ped,PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetKeepResistanceAction(Rage.Ped,System.Boolean)">
+            <summary>
+            Sets whether the specified ped should keep their set resistance action. See <seealso cref="M:PolicingRedefined.API.PedAPI.GetKeepResistanceAction(Rage.Ped)"/> for more info.
+            </summary>
+            <param name="ped">Ped to set the flag for.</param>
+            <param name="keepResistanceAction">Whether the ped should keep their set resistance action.</param>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GetKeepResistanceAction(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedResistanceAction(Rage.Ped,PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GetPedSurrenderChance(Rage.Ped)">
+            <summary>
+            Gets the probability for the specified ped to surrender (put hands up) after e.g. being tazed.
+            </summary>
+            <param name="ped">The ped to get the surrender chance of.</param>
+            <returns>Chance for the ped to surrender (0 to 100).</returns>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedSurrenderChance(Rage.Ped,System.Int32)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetPedSurrenderChance(Rage.Ped,System.Int32)">
+            <summary>
+            Sets the probability for the specified ped to surrender (put hands up) after e.g. being tazed.
+            </summary>
+            <param name="ped">The ped to set the surrender chance of.</param>
+            <param name="chance">Chance to set (0 to 100).</param>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GetPedSurrenderChance(Rage.Ped)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GetIsPedExcludedFromCustomPursuitAttributes(Rage.Ped)">
+            <summary>
+            Returns whether the specified ped is being excluded from PR's custom pursuit attributes.
+            </summary>
+            <param name="ped">The ped to check.</param>
+            <returns>True if the ped is being excluded from custom pursuit attributes.</returns>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetIsPedExcludedFromCustomPursuitAttributes(Rage.Ped,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetIsPedExcludedFromCustomPursuitAttributes(Rage.Ped,System.Boolean)">
+            <summary>
+            Sets whether the specified ped should be excluded from PR's custom pursuit attributes.
+            </summary>
+            <param name="ped">The ped to exclude/include from custom pursuit attributes.</param>
+            <param name="value">Whether the ped should be excluded or not.</param>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GetIsPedExcludedFromCustomPursuitAttributes(Rage.Ped)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GiveCitationToPed(Rage.Ped,PolicingRedefined.Interaction.Assets.PedAttributes.Citation)">
+            <summary>
+            Gives a citation to the specified ped.
+            </summary>
+            <param name="ped">The ped to give the citation to.</param>
+            <param name="citation">The citation to give.</param>
+            <remarks>Best suited for computer plugins. The 'Ped' field of the <see cref="T:PolicingRedefined.Interaction.Assets.PedAttributes.Citation"/> object must match the ped parameter.</remarks>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GiveFirearmToPed(Rage.Ped,PolicingRedefined.Interaction.Assets.FirearmItem,System.Int16,System.Boolean)">
+            <summary>
+            Gives a firearm (gun) to the specified ped.
+            This adds the firearm item to the ped's search items as well as to the GTA inventory.
+            </summary>
+            <param name="ped">The ped to give the firearm to.</param>
+            <param name="firearmItem">The firearm to give to the ped.</param>
+            <param name="ammoCount">The amount of ammo the ped should get.</param>
+            <param name="equipNow">Whether the ped should equip the firearm now.</param>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.RemoveFirearmFromPed(Rage.Ped,PolicingRedefined.Interaction.Assets.FirearmItem)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GiveWeaponToPed(Rage.Ped,PolicingRedefined.Interaction.Assets.WeaponItem,System.Int16,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.RemoveFirearmFromPed(Rage.Ped,PolicingRedefined.Interaction.Assets.FirearmItem)">
+            <summary>
+            Removes a firearm (gun) from the specified ped.
+            This removes the firearm item from the ped's search items as well as from the GTA inventory.
+            </summary>
+            <param name="ped">The ped to give remove firearm from.</param>
+            <param name="firearmItem">The firearm to remove from the ped.</param>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GiveFirearmToPed(Rage.Ped,PolicingRedefined.Interaction.Assets.FirearmItem,System.Int16,System.Boolean)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.RemoveWeaponFromPed(Rage.Ped,PolicingRedefined.Interaction.Assets.WeaponItem)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GiveWeaponToPed(Rage.Ped,PolicingRedefined.Interaction.Assets.WeaponItem,System.Int16,System.Boolean)">
+            <summary>
+            Gives a weapon (melee) to the specified ped.
+            This adds the weapon item to the ped's search items as well as to the GTA inventory.
+            </summary>
+            <param name="ped">The ped to give the weapon to.</param>
+            <param name="weaponItem">The weapon to give to the ped.</param>
+            <param name="ammoCount">The amount of ammo the ped should get.</param>
+            <param name="equipNow">Whether the ped should equip the weapon now.</param>
+            <remarks>
+            This is intended for melee weapons (knifes...), not throwables (molotov...).
+            However, it shouldn't cause too much issues when still used with throwables.
+            </remarks>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.RemoveWeaponFromPed(Rage.Ped,PolicingRedefined.Interaction.Assets.WeaponItem)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GiveFirearmToPed(Rage.Ped,PolicingRedefined.Interaction.Assets.FirearmItem,System.Int16,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.RemoveWeaponFromPed(Rage.Ped,PolicingRedefined.Interaction.Assets.WeaponItem)">
+            <summary>
+            Removes a weapon (melee) from the specified ped.
+            This removes the weapon item from the ped's search items as well as from the GTA inventory.
+            </summary>
+            <param name="ped">The ped to give remove firearm from.</param>
+            <param name="weaponItem">The weapon to remove from the ped.</param>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GiveWeaponToPed(Rage.Ped,PolicingRedefined.Interaction.Assets.WeaponItem,System.Int16,System.Boolean)"/>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.RemoveFirearmFromPed(Rage.Ped,PolicingRedefined.Interaction.Assets.FirearmItem)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.GetPedCauseOfDeath(Rage.Ped,System.Boolean@)">
+            <summary>
+            Sets a custom cause of death for a ped that will be displayed by coroners.
+            </summary>
+            <param name="ped">The ped to set it for.</param>
+            <param name="requiresAutopsy">Whether the current COD requires an autopsy. See <see cref="M:PolicingRedefined.API.PedAPI.SetPedCauseOfDeath(Rage.Ped,System.String,System.Boolean)"/> for a detailed explanation.</param>
+            <returns>The current custom set cause of death of the ped. Returns null if none was set.</returns>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.SetPedCauseOfDeath(Rage.Ped,System.String,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetPedCauseOfDeath(Rage.Ped,System.String,System.Boolean)">
+            <summary>
+            Sets a custom cause of death for a ped that will be displayed by coroners.
+            </summary>
+            <param name="ped">The ped to set it for.</param>
+            <param name="cause">The cause of the ped's death.</param>
+            <param name="requiresAutopsy">Whether this COD should be disclosed on scene or whether coroners need to perform an autopsy first.</param>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GetPedCauseOfDeath(Rage.Ped,System.Boolean@)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.PedAPI.SetInterceptPedAnyArrest(Rage.Ped,System.Boolean)">
+            <summary>
+            PR only takes over arrests that are done during pursuits, by the player or by a backup ped.
+            Setting this to 'true' will make PR take over ANY arrest that is done on this ped.
+            </summary>
+            <param name="ped">The ped to set it for.</param>
+            <param name="intercept">Whether to intercept all arrests.</param>
+        </member>
+        <member name="T:PolicingRedefined.API.SearchItemsAPI">
+            <summary>
+            Handles public methods for interacting with PR's search item system.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.API.SearchItemsAPI.AddCustomPedSearchItem(PolicingRedefined.Interaction.Assets.SearchItem)">
+            <summary>
+            Adds a custom search item to the ped specified in the provided item.
+            </summary>
+            <param name="item">The search item to add.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.SearchItem"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.GetPedSearchItems(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.OverwritePedSearchItems(Rage.Ped,PolicingRedefined.Interaction.Assets.SearchItem[])"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.ClearPedSearchItems(Rage.Ped)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.SearchItemsAPI.OverwritePedSearchItems(Rage.Ped,PolicingRedefined.Interaction.Assets.SearchItem[])">
+            <summary>
+            Overwrites the search items of the specified ped.
+            </summary>
+            <param name="ped">The ped to overwrite the search items of.</param>
+            <param name="items">The search items to use for overwriting.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.SearchItem"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.GetPedSearchItems(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.AddCustomPedSearchItem(PolicingRedefined.Interaction.Assets.SearchItem)"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.ClearPedSearchItems(Rage.Ped)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.SearchItemsAPI.GetPedSearchItems(Rage.Ped)">
+            <summary>
+            Gets the search items of the specified ped.
+            </summary>
+            <param name="ped">The ped to get the search items of.</param>
+            <returns>Search items of the ped.</returns>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.SearchItem"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.AddCustomPedSearchItem(PolicingRedefined.Interaction.Assets.SearchItem)"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.OverwritePedSearchItems(Rage.Ped,PolicingRedefined.Interaction.Assets.SearchItem[])"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.ClearPedSearchItems(Rage.Ped)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.SearchItemsAPI.ClearPedSearchItems(Rage.Ped)">
+            <summary>
+            Clears the search items of the specified ped.
+            </summary>
+            <param name="ped">The ped to clear the search items of.</param>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.GetPedSearchItems(Rage.Ped)"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.AddCustomPedSearchItem(PolicingRedefined.Interaction.Assets.SearchItem)"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.OverwritePedSearchItems(Rage.Ped,PolicingRedefined.Interaction.Assets.SearchItem[])"/>
+        </member>
+        <member name="M:PolicingRedefined.API.SearchItemsAPI.AddCustomVehicleSearchItem(PolicingRedefined.Interaction.Assets.SearchItem)">
+            <summary>
+            Adds a custom search item to the vehicle specified in the provided item.
+            </summary>
+            <param name="item">The search item to add.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.SearchItem"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.GetVehicleSearchItems(Rage.Vehicle)"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.OverwriteVehicleSearchItems(Rage.Vehicle,PolicingRedefined.Interaction.Assets.SearchItem[])"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.ClearVehicleSearchItems(Rage.Vehicle)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.SearchItemsAPI.OverwriteVehicleSearchItems(Rage.Vehicle,PolicingRedefined.Interaction.Assets.SearchItem[])">
+            <summary>
+            Overwrites the search items of the specified vehicle.
+            </summary>
+            <param name="vehicle">The vehicle to overwrite the search items of.</param>
+            <param name="items">The search items to use for overwriting.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.SearchItem"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.GetVehicleSearchItems(Rage.Vehicle)"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.AddCustomVehicleSearchItem(PolicingRedefined.Interaction.Assets.SearchItem)"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.ClearVehicleSearchItems(Rage.Vehicle)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.SearchItemsAPI.GetVehicleSearchItems(Rage.Vehicle)">
+            <summary>
+            Gets the search items of the specified vehicle.
+            </summary>
+            <param name="vehicle">The vehicle to get the search items of.</param>
+            <returns>Search items of the vehicle.</returns>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.SearchItem"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.AddCustomVehicleSearchItem(PolicingRedefined.Interaction.Assets.SearchItem)"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.OverwriteVehicleSearchItems(Rage.Vehicle,PolicingRedefined.Interaction.Assets.SearchItem[])"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.ClearVehicleSearchItems(Rage.Vehicle)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.SearchItemsAPI.ClearVehicleSearchItems(Rage.Vehicle)">
+            <summary>
+            Clears the search items of the specified vehicle.
+            </summary>
+            <param name="vehicle">The vehicle to clear the search items of.</param>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.GetVehicleSearchItems(Rage.Vehicle)"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.AddCustomVehicleSearchItem(PolicingRedefined.Interaction.Assets.SearchItem)"/>
+            <seealso cref="M:PolicingRedefined.API.SearchItemsAPI.OverwriteVehicleSearchItems(Rage.Vehicle,PolicingRedefined.Interaction.Assets.SearchItem[])"/>
+        </member>
+        <member name="T:PolicingRedefined.API.VehicleAPI">
+            <summary>
+            Handles methods regarding <see cref="T:Rage.Vehicle"/>s.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.API.VehicleAPI.GetCanVehicleBeStopped(Rage.Vehicle)">
+            <summary>
+            Gets whether the specified vehicle can be stopped by the player.
+            </summary>
+            <param name="vehicle">The vehicle to check.</param>
+            <returns>True if the player can perform a vehicle stop on the vehicle.</returns>
+            <seealso cref="M:PolicingRedefined.API.VehicleAPI.SetCanVehicleBeStopped(Rage.Vehicle,System.Boolean)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.VehicleAPI.SetCanVehicleBeStopped(Rage.Vehicle,System.Boolean)">
+            <summary>
+            Sets whether the specified vehicle can be stopped by the player.
+            </summary>
+            <param name="vehicle">The vehicle to set the flag for.</param>
+            <param name="value">Whether the player can perform a vehicle stop on the vehicle.</param>
+            <seealso cref="M:PolicingRedefined.API.VehicleAPI.GetCanVehicleBeStopped(Rage.Vehicle)"/>
+        </member>
+        <member name="M:PolicingRedefined.API.VehicleAPI.GetHasVehicleBeenSearched(Rage.Vehicle)">
+            <summary>
+            Gets whether the specified vehicle has been searched.
+            </summary>
+            <param name="vehicle">The vehicle to check.</param>
+            <returns>True if the vehicle has been searched.</returns>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.BackupCustomDefinitions">
+            <summary>
+            Configuration for PR's backup units but with custom regions.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.LocalPatrol">
+            <summary>
+            The definitions of custom regions for a local male police patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.LocalFemalePatrol">
+            <summary>
+            The definitions of custom regions for a local female police patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.StatePatrol">
+            <summary>
+            The definitions of custom regions for a state male police patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.StateFemalePatrol">
+            <summary>
+            The definitions of custom regions for a state female police patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.LocalSWAT">
+            <summary>
+            The definitions of custom regions for a local swat unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.NooseSWAT">
+            <summary>
+            The definitions of custom regions for a noose swat unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.LocalK9Patrol">
+            <summary>
+            The definitions of custom regions for a local k9 police patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.StateK9Patrol">
+            <summary>
+            The definitions of custom regions for a state k9 police patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.LocalAir">
+            <summary>
+            The definitions of custom regions for a local air unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.NooseAir">
+            <summary>
+            The definitions of custom regions for a noose air unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.PoliceTransport">
+            <summary>
+            The definitions of custom regions for a police transport unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.Ambulance">
+            <summary>
+            The definitions of custom regions for an ambulance unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.FireDepartment">
+            <summary>
+            The definitions of custom regions for a fire department unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.Coroner">
+            <summary>
+            The definitions of custom regions for a coroner unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.SmallTowTruck">
+            <summary>
+            The definitions of custom regions for a small tow truck unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.LargeTowTruck">
+            <summary>
+            The definitions of custom regions for a large tow truck unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.FlatbedTowTruck">
+            <summary>
+            The definitions of custom regions for a flatbed tow truck unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupCustomDefinitions.AnimalControl">
+            <summary>
+            The definitions of custom regions for an animal control unit.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.BackupVehicleDivisionCustomMapping">
+            <summary>
+            Backup unit definitions (vehicle divisions) per defined world areas.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupVehicleDivisionCustomMapping.Name">
+            <summary>
+            The name of the custom mapping.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupVehicleDivisionCustomMapping.Zones">
+            <summary>
+            The world zones these definitions are valid for.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupVehicleDivisionCustomMapping.VehicleDivisions">
+            <summary>
+            The custom vehicle divisions for the specified zones.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions">
+            <summary>
+            Configuration for PR's backup units.
+            If you add something here, don't forget to add it in <see cref="M:PolicingRedefined.Backup.Customization.BackupDefinitions.LoadDefaultDefinitions"/>
+            and <see cref="M:PolicingRedefined.Backup.Customization.BackupDefinitions.LoadCustomDefinitions"/>!
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.LocalPatrol">
+            <summary>
+            The definition for a local male police patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.LocalFemalePatrol">
+            <summary>
+            The definition for a local female police patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.StatePatrol">
+            <summary>
+            The definition for a state male police patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.StateFemalePatrol">
+            <summary>
+            The definition for a state female police patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.LocalSWAT">
+            <summary>
+            The definition for a local swat unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.NooseSWAT">
+            <summary>
+            The definition for a noose swat unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.LocalK9Patrol">
+            <summary>
+            The definition for a local k9 police patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.StateK9Patrol">
+            <summary>
+            The definition for a state k9 police patrol unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.LocalAir">
+            <summary>
+            The definition for a local air unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.NooseAir">
+            <summary>
+            The definition for a noose air unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.PoliceTransport">
+            <summary>
+            The definition for a police transport unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.Ambulance">
+            <summary>
+            The definition for an ambulance unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.FireDepartment">
+            <summary>
+            The definition for a fire department unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.Coroner">
+            <summary>
+            The definition for a coroner unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.SmallTowTruck">
+            <summary>
+            The definition for a small tow truck unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.LargeTowTruck">
+            <summary>
+            The definition for a large tow truck unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.FlatbedTowTruck">
+            <summary>
+            The definition for a flatbed tow truck unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupDefaultDefinitions.AnimalControl">
+            <summary>
+            The definition for an animal control unit.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.BackupVehicleDivisionMapping">
+            <summary>
+            Backup unit definitions (vehicle divisions) per world area.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupVehicleDivisionMapping.LosSantosCity">
+            <summary>
+            Los Santos City
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupVehicleDivisionMapping.LosSantosCounty">
+            <summary>
+            Los Santos County
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupVehicleDivisionMapping.BlaineCounty">
+            <summary>
+            Blaine County
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupVehicleDivisionMapping.NorthYankton">
+            <summary>
+            North Yankton
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupVehicleDivisionMapping.CayoPerico">
+            <summary>
+            Cayo Perico
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinitions">
+            <summary>
+            Configuration for PR's special units.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinitions.SpecialUnits">
+            <summary>
+            The definitions of special units.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition">
+            <summary>
+            The definition for a special unit.
+            It supports both default and custom regions.
+            Do not use the '...Specified' properties; these are only for the sake of xml serialization.
+            Instead, use their equivalent without the 'Specified' suffix.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.Name">
+            <summary>
+            The name of the special unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.Role">
+            <summary>
+            The role of the special unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsCode1">
+            <summary>
+            Whether the unit counts as code-1 backup.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsCode1Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsCode1"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsCode2">
+            <summary>
+            Whether the unit counts as code-2 backup.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsCode2Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsCode2"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsCode3">
+            <summary>
+            Whether the unit counts as code-3 backup.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsCode3Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsCode3"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsPursuit">
+            <summary>
+            Whether the unit counts as pursuit backup.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsPursuitSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsPursuit"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsTrafficStop">
+            <summary>
+            Whether the unit counts as traffic stop backup.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsTrafficStopSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsTrafficStop"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsFelonyStop">
+            <summary>
+            Whether the unit counts as felony backup.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsFelonyStopSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.IsFelonyStop"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.HasK9">
+            <summary>
+            Whether the unit has a K9.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.HasK9Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.HasK9"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.BackupSpecialUnitDefinition.CustomMappings">
+            <summary>
+            Custom region overrides for the special unit.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.CustomUnitNames">
+            <summary>
+            Configuration for the names of PR's backup units.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.CustomUnitNames.Items">
+            <summary>
+            All declared custom name lists.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.CustomNameList">
+            <summary>
+            A custom name list with an identifier and the names belonging to it.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.CustomNameList.Id">
+            <summary>
+            Specifies the id of a custom name list.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.CustomNameList.Names">
+            <summary>
+            The names belonging to this 
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision">
+            <summary>
+            A variation of a backup unit including peds, vehicles, weapons and more.
+            Do not use the '...Specified' properties; these are only for the sake of xml serialization.
+            Instead, use their equivalent without the 'Specified' suffix.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.Chance">
+            <summary>
+            The chance that this unit variation is picked.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.SpawnDistance">
+            <summary>
+            The average distance the unit should spawn at.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.NameListId">
+            <summary>
+            The identifier for the custom name list to use.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.NameListIdSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.NameListId"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.Peds">
+            <summary>
+            All possible ped variations for this unit variation.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.Vehicles">
+            <summary>
+            All possible vehicle variations for this unit variation.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.LongGuns">
+            <summary>
+            All possible long guns for this unit variation.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.HandGuns">
+            <summary>
+            All possible hand guns for this unit variation.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.NonLethals">
+            <summary>
+            All possible melee weapons for this unit variation.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9Model">
+            <summary>
+            The dog (ped) model name for K9 backup units.
+            PR ignores all K9 attributes for non-k9 units.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9TexFace">
+            <summary>
+            The texture of the K9's face.
+            </summary>
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9Model"/>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9TexFaceSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9TexFace"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9TexShirt">
+            <summary>
+            The texture of the K9's shirt component.
+            </summary>
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9Model"/>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9TexShirtSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9TexShirt"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9TexAccessories">
+            <summary>
+            The texture of the K9's accessories component.
+            </summary>
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9Model"/>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9TexAccessoriesSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivision.K9TexAccessories"/>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed">
+            <summary>
+            A possible ped variation of a unit variation.
+            Do not use the '...Specified' properties; these are only for the sake of xml serialization.
+            Instead, use their equivalent without the 'Specified' suffix.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ModelName">
+            <summary>
+            Model name of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.Chance">
+            <summary>
+            The chance that this outfit variation is picked.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.IsRainOutfit">
+            <summary>
+            Whether this outfit variation should be used during rain.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.IsRainOutfitSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.IsRainOutfit"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.IsSnowOutfit">
+            <summary>
+            Whether this outfit variation should be used during snow.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.IsSnowOutfitSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.IsSnowOutfit"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentFace">
+            <summary>
+            The face of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentFaceSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentFace"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureFace">
+            <summary>
+            The texture of the ped's face.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureFaceSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureFace"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentBeard">
+            <summary>
+            The beard of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentBeardSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentBeard"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureBeard">
+            <summary>
+            The texture of the ped's beard.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureBeardSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureBeard"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentHair">
+            <summary>
+            The hair of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentHairSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentHair"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureHair">
+            <summary>
+            The texture of the ped's hair.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureHairSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureHair"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentShirtOverlay">
+            <summary>
+            The shirt overlay of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentShirtOverlaySpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentShirtOverlay"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureShirtOverlay">
+            <summary>
+            The texture of the ped's shirt overlay.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureShirtOverlaySpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureShirtOverlay"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentShirt">
+            <summary>
+            The shirt of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentShirtSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentShirt"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureShirt">
+            <summary>
+            The texture of the ped's shirt.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureShirtSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureShirt"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentDecals">
+            <summary>
+            The decals of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentDecalsSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentDecals"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureDecals">
+            <summary>
+            The texture of the ped's decals.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureDecalsSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureDecals"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentAccessories">
+            <summary>
+            The accessories of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentAccessoriesSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentAccessories"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureAccessories">
+            <summary>
+            The texture of the ped's accessories.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureAccessoriesSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureAccessories"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentPants">
+            <summary>
+            The pants of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentPantsSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentPants"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TexturePants">
+            <summary>
+            The texture of the ped's pants.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TexturePantsSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TexturePants"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentShoes">
+            <summary>
+            The shoes of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentShoesSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentShoes"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureShoes">
+            <summary>
+            The texture of the ped's shoes.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureShoesSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureShoes"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentEyes">
+            <summary>
+            The eyes of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentEyesSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentEyes"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureEyes">
+            <summary>
+            The texture of the ped's eyes.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureEyesSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureEyes"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentTasks">
+            <summary>
+            The tasks component of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentTasksSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentTasks"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureTasks">
+            <summary>
+            The texture of the ped's tasks component.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureTasksSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureTasks"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentHands">
+            <summary>
+            The hands of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentHandsSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.ComponentHands"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureHands">
+            <summary>
+            The texture of the ped's hands.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureHandsSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureHands"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.RandomizeProps">
+            <summary>
+            Whether to randomize the props of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.RandomizePropsSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.RandomizeProps"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.PropGlasses">
+            <summary>
+            The glasses of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.PropGlassesSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.PropGlasses"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureGlasses">
+            <summary>
+            The texture of the ped's glasses.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureGlassesSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureGlasses"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.PropHat">
+            <summary>
+            The hat of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.PropHatSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.PropHat"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureHat">
+            <summary>
+            The texture of the ped's hat.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureHatSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureHat"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.PropEars">
+            <summary>
+            The ears of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.PropEarsSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.PropEars"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureEars">
+            <summary>
+            The texture of the ped's ears.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureEarsSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureEars"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.PropWatch">
+            <summary>
+            The watch of the ped.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.PropWatchSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.PropWatch"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureWatch">
+            <summary>
+            The texture of the ped's watch.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureWatchSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.TextureWatch"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.HasMask">
+            <summary>
+            Whether the ped wears a mask.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.HasMaskSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.HasMask"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.AddArmor">
+            <summary>
+            Amount of additional armor the ped gets.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.AddArmorSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionPed.AddArmor"/>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle">
+            <summary>
+            A possible vehicle variation of a unit variation.
+            Do not use the '...Specified' properties; these are only for the sake of xml serialization.
+            Instead, use their equivalent without the 'Specified' suffix.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.ModelName">
+            <summary>
+            Model name of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.Chance">
+            <summary>
+            The chance that this vehicle variation is picked.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.Color">
+            <summary>
+            The color of the vehicle.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.PassengersAmount">
+            <summary>
+            Amount of passengers.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.PassengersAmountSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.PassengersAmount"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.PassengersChance">
+            <summary>
+            The chance that the vehicle has <see cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.PassengersAmount"/> passengers.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.PassengersChanceSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.PassengersChance"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.Livery">
+            <summary>
+            The livery of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.LiverySpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.Livery"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra1">
+            <summary>
+            Extra 1 of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra1Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra1"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra2">
+            <summary>
+            Extra 2 of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra2Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra2"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra3">
+            <summary>
+            Extra 3 of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra3Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra3"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra4">
+            <summary>
+            Extra 4 of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra4Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra4"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra5">
+            <summary>
+            Extra 5 of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra5Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra5"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra6">
+            <summary>
+            Extra 6 of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra6Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra6"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra7">
+            <summary>
+            Extra 7 of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra7Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra7"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra8">
+            <summary>
+            Extra 8 of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra8Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra8"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra9">
+            <summary>
+            Extra 9 of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra9Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra9"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra10">
+            <summary>
+            Extra 10 of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra10Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra10"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra11">
+            <summary>
+            Extra 11 of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra11Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra11"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra12">
+            <summary>
+            Extra 12 of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra12Specified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.HasExtra12"/>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.ExtraData">
+            <summary>
+            Additional data for this backup vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.ExtraDataSpecified">
+            <seealso cref="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionVehicle.ExtraData"/>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionWeapon">
+            <summary>
+            A weapon that a ped of a vehicle division can have.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionWeapon.ModelName">
+            <summary>
+            The model name of the vehicle.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionWeapon.Chance">
+            <summary>
+            The chance that this weapon is picked.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionWeapon.Component1">
+            <summary>
+            Component 1 of the weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionWeapon.Component2">
+            <summary>
+            Component 2 of the weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionWeapon.Component3">
+            <summary>
+            Component 3 of the weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionWeapon.Component4">
+            <summary>
+            Component 4 of the weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionWeapon.Component5">
+            <summary>
+            Component 5 of the weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionWeapon.Component6">
+            <summary>
+            Component 6 of the weapon.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Backup.Customization.Models.BackupVehicleDivisionWeapon.#ctor">
+            <summary>
+            Default constructor for XML serializer
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.Models.ExtraBackupVehicleData">
+            <summary>
+            Contains extra for backup vehicles.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.Models.AnimalControlData">
+            <summary>
+            Extra backup config data for the animal control unit.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Backup.Customization.Models.AnimalControlData.#ctor">
+            <summary>
+            Base constructor validating this extra data type.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.AnimalControlData.DeleteAnimal">
+            <summary>
+            Whether to delete the animal instead of teleporting it to the AC vehicle.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.AnimalControlData.OffsetX">
+            <summary>
+            The teleport and attachment offset of the animal.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.AnimalControlData.OffsetY">
+            <summary>
+            The teleport and attachment of the animal.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Customization.Models.TowTruckData">
+            <summary>
+            Extra backup config data for the (flatbed) tow truck unit.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Backup.Customization.Models.TowTruckData.#ctor">
+            <summary>
+            Base constructor validating this extra data type.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.TowTruckData.OffsetX">
+            <summary>
+            The attachment offset of the vehicle.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.TowTruckData.OffsetY">
+            <summary>
+            The attachment of the vehicle.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Customization.Models.TowTruckData.OffsetZ">
+            <summary>
+            The attachment of the vehicle.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Entities.BackupTasks.EBackupTask">
+            Keep this in sync with <see cref="T:PolicingRedefined.Backup.Entities.BackupTasks.BackupTaskExtensions"/>
+        </member>
+        <member name="P:PolicingRedefined.Backup.Entities.BackupUnits.TowUnit.VehicleToTow">
+            <summary>
+            This is to be set when it is known which vehicle is going to be towed.
+            It is used by fast-dispatch to ensure the vehicle to be towed isn't deleted when ensuring a clear position before teleporting.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Backup.Entities.BackupUnits.TowUnit.AttachVehicle(Rage.Vehicle)">
+            <summary>
+            Make sure the <paramref name="veh"/> is close to the tow vehicle before calling this
+            </summary>
+            <param name="veh"></param>
+        </member>
+        <member name="T:PolicingRedefined.Backup.Entities.EBackupResponseCode">
+            <summary>
+            The response code for a backup unit.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Entities.EBackupResponseCode.Code1">
+            <summary>
+            No lights, no siren, obey all traffic laws
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Entities.EBackupResponseCode.Code2">
+            <summary>
+            Lights but no siren, slightly more aggressive driving
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Backup.Entities.EBackupResponseCode.Code3">
+            <summary>
+            Lights and siren, drive as fast as possible
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Engine.Entities.Pickup">
+            <summary>
+            Represents a pickup object.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Engine.Entities.PRHandle">
+            <summary>
+            Handle to certain PR objects.
+            </summary>
+            <seealso cref="T:LSPD_First_Response.Mod.API.LHandle"/>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Entities.PRHandle.ToString">
+            <summary>
+            Converts the handle into a string.
+            </summary>
+            <returns>Created string.</returns>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Entities.PRHandle.Equals(System.Object)">
+            <summary>
+            Compares two objects.
+            </summary>
+            <param name="obj">The object to compare.</param>
+            <returns>True if they match.</returns>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Entities.PRHandle.Equals(PolicingRedefined.Engine.Entities.PRHandle)">
+            <summary>
+            Compares two handles.
+            </summary>
+            <param name="handle">The other handle.</param>
+            <returns>True if they match.</returns>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Entities.PRHandle.GetHashCode">
+            <summary/>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Entities.PRHandle.op_Equality(PolicingRedefined.Engine.Entities.PRHandle,PolicingRedefined.Engine.Entities.PRHandle)">
+            <seealso cref="M:PolicingRedefined.Engine.Entities.PRHandle.Equals(PolicingRedefined.Engine.Entities.PRHandle)"/>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Entities.PRHandle.op_Inequality(PolicingRedefined.Engine.Entities.PRHandle,PolicingRedefined.Engine.Entities.PRHandle)">
+            <seealso cref="M:PolicingRedefined.Engine.Entities.PRHandle.Equals(PolicingRedefined.Engine.Entities.PRHandle)"/>
+        </member>
+        <member name="T:PolicingRedefined.Engine.Hooking.MemoryHooking.RageColor32">
+            <summary>
+            ARGB-Format: 0xAARRGGBB
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Hooking.MethodRedirection.RedirectMethodTo(System.Reflection.MethodInfo,System.Reflection.MethodInfo)">
+            <summary>
+            Redirects a .NET managed method to a .NET managed target method. The target method must match the signature of the origin method.
+            When hooking instance methods, the target method must have an 'object @this' as the first argument.
+            If you want to be able to call the origin method after hooking use <see cref="M:PolicingRedefined.Engine.Hooking.MethodRedirection.RedirectMethodTo(System.Reflection.MethodInfo,System.Reflection.MethodInfo,System.Reflection.MethodInfo)"/>.
+            </summary>
+            <param name="origin">Method to redirect.</param>
+            <param name="target">Method to redirect to. Must be static.</param>
+            <returns>An instance of <see cref="T:PolicingRedefined.Engine.Hooking.ManagedMethodHook"/> if successful; 'null' if hooking failed.</returns>
+            <example>Check <see cref="T:PolicingRedefined.Engine.Hooking.HookedLSPDFRMethods"/>.</example>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Hooking.MethodRedirection.RedirectMethodTo(System.Reflection.MethodInfo,System.Reflection.MethodInfo,System.Reflection.MethodInfo)">
+            <summary>
+            Redirects a .NET managed method to a .NET managed target method while using a 3rd method as proxy to allow calling the origin method.
+            Both the target and proxy method must match the signature of the origin method.
+            When hooking instance methods, the target and proxy methods must have an 'object @this' as the first argument.
+            </summary>
+            <param name="origin">Method to redirect.</param>
+            <param name="target">Method to redirect to. Must be static</param>
+            <param name="proxy">
+            Empty (e.g. returning a default value) method which can be hooked by the origin method
+            to support calling of the origin method. Must be static.
+            </param>
+            <returns>An instance of <see cref="T:PolicingRedefined.Engine.Hooking.ManagedMethodHook"/> if successful; 'null' if hooking failed.</returns>
+            <example>Check <see cref="T:PolicingRedefined.Engine.Hooking.HookedLSPDFRMethods"/>.</example>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Hooking.ManagedMethodHook.InvokeOrigin(System.Object[])">
+            <summary>
+            Invokes the origin method using the provided arguments.
+            </summary>
+            <param name="thisAndArgs"> The provided arguments.
+            If the origin method is not static, make sure to provide an 'object @this' as the first array entry,
+            which represents an instance of the owning class or struct.</param>
+            <returns>The return value of the origin method.</returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="T:PolicingRedefined.Engine.Natives.PedClothingComp">
+            <summary>
+            https://gtaxscripting.blogspot.com/2016/04/gta-v-peds-component-and-props.html
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingComp.Torso">
+            <summary>
+            Upperskin
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingComp.Legs">
+            <summary>
+            Pants
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingComp.Hands">
+            <summary>
+            Gloves
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingComp.Feet">
+            <summary>
+            Shoes
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingComp.Teeth">
+            <summary>
+            Unknown
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingComp.Special">
+            <summary>
+            Accessories
+            </summary>
+            <example>Parachute, Scuba tank...</example>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingComp.Special2">
+            <summary>
+            Task
+            </summary>
+            <example>Bags</example>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingComp.Decal">
+            <summary>
+            Decals
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingComp.Jbib">
+            <summary>
+            Auxiliary parts for torso
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Engine.Natives.PedClothingProp">
+            <summary>
+            https://gtaxscripting.blogspot.com/2016/04/gta-v-peds-component-and-props.html
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingProp.Head">
+            <summary>
+            Head accessories
+            </summary>
+            <example>Helmets, hats, earphones, masks...</example>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingProp.Eyes">
+            <summary>
+            Glasses
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingProp.Ears">
+            <summary>
+            Ear accessories
+            </summary>
+            <example>Ear rings...</example>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Natives.PedClothingProp.LeftWrist">
+            <summary>
+            Watches
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Tasks.Animations.GeneralAnimations.GrabFromVehicle(Rage.Ped,System.Boolean)">
+            <summary>
+            Same as <see cref="M:PolicingRedefined.Engine.Tasks.Animations.GeneralAnimations.GrabFromVehicle(Rage.Ped,System.Int32,System.Boolean)"/> except it does not hold up the fiber and just returns the animation task
+            </summary>
+            <param name="ped"></param>
+            <param name="unequipWeapon"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Tasks.Animations.PoliceAnimations.PlayInvestigationAnimation(Rage.Ped)">
+            <summary>
+            50/50 Chance to play CODE_HUMAN_POLICE_INVESTIGATE or CODE_HUMAN_MEDIC_KNEEL
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Tasks.EntityTask.Start">
+            <summary>
+            Starts the task.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Tasks.EntityTask.Stop">
+            <summary>
+            Stops the task.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Tasks.EntityTask.ProcessCore">
+            <summary>
+            The actual task logic.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Extensions.DistanceExtensions.GetByShortestDistanceTo``1(``0[],Rage.ISpatial,System.Func{``0,System.Boolean})">
+            This is faster than filtering the array first (F) and then looking (L) for the closest entity
+            - F O(n) + L O(n) = O(2n) | (this reduces to O(n) in Big-Oh-Notation, but you get the point)
+            - F while L = O(n) | Both computations are done in one iteration
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Extensions.VehicleExtensions.GetEntitySideOfVehicle(Rage.Vehicle,Rage.Entity)">
+            <summary>
+            Gets which side of a vehicle the given entity is on
+            </summary>
+            <param name="veh"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="F:PolicingRedefined.Engine.Utility.Helpers.DelegateHelper.IsNearbyPed">
+            Keep this in sync with <see cref="T:PolicingRedefined.Engine.Utility.Helpers.EntityChoosingHelper"/>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Helpers.EntityChoosingHelper.GetNearestDeadPed(Rage.Ped@,System.Single)">
+            <summary>
+            Gets nearest dead ped, returns true if successful
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Helpers.HeadBlendHelper.RandomizeMpAppearance(Rage.Ped,System.Boolean)">
+            <summary>
+            Randomizes head appearance of an MP ped.
+            IMPORTANT: Call this *before* setting component variations etc. or they might be overriden.
+            </summary>
+            <param name="mpPed">The MP ped to randomize</param>
+            <param name="hasMask">Whether the MP ped is wearing a mask in order to shrink face features to prevent clipping.</param>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Helpers.PursuitHelper.GetPursuitSuspects(LSPD_First_Response.Mod.API.LHandle,Rage.Ped[]@)">
+            <summary>
+            Gets all active suspects in the current pursuit, returns false if it fails to get any suspects
+            </summary>
+            <param name="handle">Handle of the pursuit</param>
+            <param name="suspects">Array of peds in the pursuit</param>
+            <returns>Out parameter for the suspects in the pursuit</returns>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Helpers.PursuitHelper.GetPursuitVehicles(LSPD_First_Response.Mod.API.LHandle,System.Collections.Generic.List{Rage.Vehicle}@)">
+            <summary>
+            Gets all active suspect vehicles in the current pursuit, returns false if it fails to get any suspects
+            </summary>
+            <param name="handle">Handle of the pursuit</param>
+            <param name="suspectVehicles">List of suspect vehicles in the pursuit</param>
+            <returns>Out parameter for the suspect vehicles in the pursuit</returns>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Helpers.PursuitHelper.StartPursuit(System.Boolean,System.Boolean,Rage.Ped[])">
+            <summary>
+            Starts a pursuit, returns the LHandle
+            </summary>
+            <param name="areSuspectsPulledOver"></param>
+            <param name="randomizePursuitAttributes"></param>
+            <param name="suspects"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Helpers.WorldHelper.EnsureClearanceAtPosition(Rage.Vehicle,Rage.Vector3,Rage.Vehicle[])">
+            <summary>
+            This uses <see cref="M:Rage.World.TraceBox(Rage.Vector3,Rage.Quaternion,Rage.Vector3,Rage.TraceFlags,Rage.Entity)"/> with the provided vehicle's dimensions,
+            to check whether the certain area is clear for the vehicle.
+            </summary>
+            <param name="vehicle">The vehicle to check for.</param>
+            <param name="position">The position to check at.</param>
+            <param name="vehiclesToIgnore">Vehicles that should not be deleted.</param>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Helpers.WorldHelper.EnsureClearanceAtPosition(Rage.Vector3,Rage.Quaternion,Rage.Vector3,Rage.Vehicle[])">
+            <summary>
+            This uses <see cref="M:Rage.World.TraceBox(Rage.Vector3,Rage.Quaternion,Rage.Vector3,Rage.TraceFlags,Rage.Entity)"/> with the provided dimensions and orientation,
+            to check whether the certain area is clear.
+            </summary>
+            /// <param name="dimensions">The dimensions of the shape test.</param>
+            /// <param name="orientation">The orientation of the shape test.</param>
+            <param name="position">The position to check at.</param>
+            <param name="vehiclesToIgnore">Vehicles that should not be deleted.</param>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Helpers.CameraHelper.GetAimCoords(System.Single)">
+            <summary>
+            Gets position your camera is aiming at
+            </summary>
+            <param name="maxDistance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Helpers.EnumHelper.GetFlags``1(``0,System.Boolean)">
+            <summary>
+            Gets the flags of an enum, filters out any flags with the value of 0, unless the input is 0
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="input"></param>
+            <param name="includeZeroFlag">If true and enum is equivalent to zero return array of default value, else return empty array</param>
+            <returns></returns>
+            <exception cref="T:System.InvalidCastException"></exception>
+        </member>
+        <member name="T:PolicingRedefined.Engine.Utility.Resources.WeightedList`1">
+            <summary>
+            This implements an algorithm for sampling from a discrete probability distribution via a generic list
+            with extremely fast O(1) get operations and small (close to minimally small) O(n) space complexity and
+            O(n) CRUD complexity. In other words, you can add any item of type T to a List with an integer weight,
+            and get a random item from the list with probability ( weight / sum-weights ).
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Resources.WeightedList`1.#ctor(System.Random)">
+            <summary>
+            Create a new WeightedList with an optional System.Random.
+            </summary>
+            <param name="rand"></param>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Resources.WeightedList`1.#ctor(System.Collections.Generic.IEnumerable{PolicingRedefined.Engine.Utility.Resources.WeightedListItem{`0}},System.Random)">
+            <summary>
+            Create a WeightedList with the provided items and an optional System.Random.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Engine.Utility.Resources.WeightedList`1.MinWeight">
+            <summary>
+            Minimum weight in the structure. 0 if Count == 0.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Engine.Utility.Resources.WeightedList`1.MaxWeight">
+            <summary>
+            Maximum weight in the structure. 0 if Count == 0.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Engine.Utility.Resources.WeightedList`1.Recalculate">
+            <summary>
+            https://www.keithschwarz.com/darts-dice-coins/
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Engine.Utility.Resources.WeightedListItem`1">
+            <summary>
+            A single item for a list with matching T. Create one or more WeightedListItems, add to a Collection
+            and Add() to the WeightedList for a single calculation pass.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.PedAttributes.Citation">
+            <summary>
+            Represents a citation that can be given to peds.
+            </summary>
+            <remarks>Best suited for computer plugins.</remarks>
+            <seealso cref="M:PolicingRedefined.API.PedAPI.GiveCitationToPed(Rage.Ped,PolicingRedefined.Interaction.Assets.PedAttributes.Citation)"/>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.Citation.Ped">
+            <summary>
+            The ped the citation was written for.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.Citation.Infraction">
+            <summary>
+            The infraction the ped committed.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.Citation.Fine">
+            <summary>
+            The fine the ped has to pay.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.Citation.CurrencySymbol">
+            <summary>
+            The currency of the fine.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.Citation.IsCurrencyInfront">
+            <summary>
+            Whether the currency symbol should be infront of the fine or after it.
+            </summary>
+            <example>$100, 100€</example>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.Citation.IsArrestable">
+            <summary>
+            Whether the infraction is arrestable.
+            If true the color in the citation notification is red instead of yellow.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.PedAttributes.Citation.#ctor(Rage.Ped,System.String,System.Int32,System.Boolean)">
+            <summary>
+            Creates an instance.
+            </summary>
+            <param name="ped">The ped the citation is for.</param>
+            <param name="infraction">The infraction the ped committed.</param>
+            <param name="fine">The fine the ped has to pay.</param>
+            <param name="isArrestable">Whether the infraction is arrestable.</param>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.PedAttributes.Citation.#ctor(Rage.Ped,System.String,System.Int32,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Creates an instance.
+            </summary>
+            <param name="ped">The ped the citation is for.</param>
+            <param name="infraction">The infraction the ped committed.</param>
+            <param name="fine">The fine the ped has to pay.</param>
+            <param name="currencySymbol">The currency symbol that should be used for the fine.</param>
+            <param name="isCurrencyInfront">Whether the currency symbol should be infront of the fine.</param>
+            <param name="isArrestable">Whether the infraction is arrestable.</param>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.PedAttributes.Citation.ToString">
+            <summary>
+            Turns the citation object into a string.
+            </summary>
+            <returns>Citation as colored string.</returns>
+            <exception cref="T:System.Data.NoNullAllowedException"><see cref="F:PolicingRedefined.Interaction.Assets.PedAttributes.Citation.Infraction"/> must not be null.</exception>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.PedAttributes.DrugIntoxication.GetDrugsFromPedData(PolicingRedefined.Interaction.Assets.PedAttributes.PedRuntimeData,System.Boolean)">
+            <summary>
+            Returns an array of all <see cref="T:PolicingRedefined.Interaction.Assets.EDrugType"/> that the ped is on
+            </summary>
+            <param name="pedRuntimeData"></param>
+            <param name="includeZeroFlag"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.PedAttributes.DrugIntoxication.GetDrugCategoriesFromPedData(PolicingRedefined.Interaction.Assets.PedAttributes.PedRuntimeData)">
+            <summary>
+            Returns an array of all <see cref="T:PolicingRedefined.Interaction.Assets.PedAttributes.EDrugCategory"/> that the ped is on, make sure to
+            check if they're high first before calling
+            </summary>
+            <param name="pedRuntimeData"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel">
+            <summary>
+            Specifies the different levels of drunk a ped can be.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel.None">
+            <summary>
+            Not drunk
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel.Tipsy">
+            <summary>
+            Slightly drunk.
+            </summary>
+            <remarks>Walkstyle: move_m@drunk@slightlydrunk</remarks>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel.ModeratelyDrunk">
+            <summary>
+            Moderately drunk.
+            </summary>
+            <remarks>Walkstyle: move_m@drunk@a</remarks>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel.VeryDrunk">
+            <summary>
+            Very drunk.
+            </summary>
+            <remarks>Walkstyle: move_m@drunk@moderatedrunk</remarks>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel.Wasted">
+            <summary>
+            Extremely drunk.
+            </summary>
+            <remarks>Walkstyle: move_m@drunk@verydrunk</remarks>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel.ShouldBeDead">
+            <summary>
+            How are they still alive?
+            </summary>
+            <remarks>Walkstyle: move_m@drunk@verydrunk</remarks>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.PedAttributes.Drunk.GenerateBAC(PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel)">
+            <summary>
+            Generates a random BAC based on a <see cref="T:PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel"/>
+            </summary>
+            <param name="drunkLevel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.PedAttributes.Drunk.GetPedDrunkLevelAsEnum(System.Single,System.Nullable{PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel}@)">
+            <summary>
+            Converts <paramref name="amountInBac"/> to an <see cref="T:PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel"/> value.
+            Returns true if successful, false if ped is sober or the conversion failed
+            </summary>
+            <param name="amountInBac"></param>
+            <param name="drunkLevel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.PedAttributes.Drunk.SetPedDrunk(Rage.Ped,System.Boolean)">
+            <summary>
+            Sets a ped as drunk, randomly generates the <see cref="T:PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel"/> based on the weighted list probablity
+            </summary>
+            <param name="ped"></param>
+            <param name="setWalkstyle"></param>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.PedAttributes.Drunk.SetPedDrunk(Rage.Ped,PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel,System.Boolean)">
+            <summary>
+            Sets a ped as drunk, resets everything if <paramref name="drunkLevel"/> is set to none.
+            </summary>
+            <param name="ped"></param>
+            <param name="drunkLevel"></param>
+            <param name="setWalkstyle"></param>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.PedAttributes.Drunk.SetPedDrunk(Rage.Ped,System.Single,System.Boolean)">
+            <summary>
+            Sets a ped as drunk, instead of using <see cref="T:PolicingRedefined.Interaction.Assets.PedAttributes.EDrunkLevel"/>, it takes in a BAC value directly. If set to 0 it resets everything
+            </summary>
+            <param name="ped"></param>
+            <param name="amountInBac"></param>
+            /// <param name="setWalkstyle"></param>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.PedAttributes.PatDownItems">
+            <summary/>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.PatDownItems.GreenItems">
+            <summary>
+            Legal items
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.PatDownItems.YellowItems">
+            <summary>
+            Suspicious items
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.PatDownItems.RedItems">
+            <summary>
+            Illegal items
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.PedAttributes.EPedMood">
+            <summary>
+            Specifies the mood of a ped during questioning.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.EPedMood.Sad">
+            <summary/>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.EPedMood.Nervous">
+            <summary/>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.EPedMood.Mad">
+            <summary/>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.EPedMood.Neutral">
+            <summary/>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.EPedMood.Sovereign">
+            <summary/>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.PedAttributes.CustomQuestions">
+            <summary>
+            Represents custom questions.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.CustomQuestions.QuestionGroups">
+            <summary/>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.PedAttributes.QuestionGroup">
+            <summary>
+            Represents a group of questions.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.QuestionGroup.Name">
+            <summary>
+            Name of the question group.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.QuestionGroup.Questions">
+            <summary>
+            All questions of the group.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.PedAttributes.Question">
+            <summary>
+            Represents a question.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.Question.Text">
+            <summary>
+            The question.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.Question.Answers">
+            <summary>
+            All answers to that question.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.PedAttributes.Question.DisplayAnswer(Rage.Ped,System.Boolean)">
+            <remarks>
+            Play this on a fiber as it might require a wait.
+            </remarks>
+            <param name="ped">Ped to display the answer for.</param>
+            <param name="playGesture">Whether to play a gesture based on the ped's mood.</param>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.PedAttributes.Answer">
+            <summary>
+            Represents an answer to a question.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.Answer.Text">
+            <summary>
+            The answer.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.Answer.IsDrunk">
+            <summary>
+            The peds drunk level.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.Answer.IsHigh">
+            <summary>
+            Whether the ped is high.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.PedAttributes.Answer.PedMood">
+            <summary>
+            The mood of the ped.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.EItemColor">
+            <summary>
+            Specifies different colors (bound to chances) of search items.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.EDrugType">
+            <summary>
+            Specifies different drug types. Since this enum is marked as flags these can be combined.
+            E.g. a ped can be on multiple drugs or a <see cref="T:PolicingRedefined.Interaction.Assets.DrugItem"/> can contain multiple drugs.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.None">
+            <summary>
+            No drug.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Morphine">
+            <summary>Opioid</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Heroin">
+            <summary>Opioid</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Codeine">
+            <summary>Opioid</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Oxycodone">
+            <summary>Opioid</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Hydrocodone">
+            <summary>Opioid</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Fentanyl">
+            <summary>Opioid</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.PCP">
+            <summary>Hallucinogen</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.LSD">
+            <summary>Hallucinogen</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Mescaline">
+            <summary>Hallucinogen</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Psilocybin">
+            <summary>Hallucinogen</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Cannabis">
+            <summary>Hallucinogen</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Adderall">
+            <summary>Amphetamine</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Concerta">
+            <summary>Amphetamine</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Ritalin">
+            <summary>Amphetamine</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Methamphetamine">
+            <summary>Amphetamine</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Vyvanse">
+            <summary>Amphetamine</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Cocaine">
+            <summary>Amphetamine</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Risperdal">
+            <summary>Antipsychotics</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Seroquel">
+            <summary>Antipsychotics</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Abilify">
+            <summary>Antipsychotics</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EDrugType.Clozapine">
+            <summary>Antipsychotics</summary>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.EItemChance">
+            <summary>
+            Specifies the probabilities of search items.
+            Make sure that they add up to 100.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EItemChance.VeryRare">
+            <summary>Very rare item</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EItemChance.Rare">
+            <summary>Rare item</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EItemChance.Normal">
+            <summary>Normal item</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EItemChance.Often">
+            <summary>Common item</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EItemChance.VeryOften">
+            <summary>Very common item</summary>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.EItemLocation">
+            <summary>
+            Specifies the different locations of a search item.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EItemLocation.None">
+            <summary>No specific location.</summary>
+            <remarks>
+            Mostly used for peds.
+            </remarks>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EItemLocation.Anywhere">
+            <summary>Item is anywhere.</summary>
+            <remarks>
+            If a vehicle search item has this set as location it will be randomized.
+            </remarks>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EItemLocation.DriverSeat">
+            <summary>Item is around the driver seat.</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EItemLocation.PassengerSeat">
+            <summary>Item is around the passenger seat.</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EItemLocation.BackLeftSeat">
+            <summary>Item is around the back left seat.</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EItemLocation.BackRightSeat">
+            <summary>Item is around the back right seat.</summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EItemLocation.Trunk">
+            <summary>Item is in the trunk.</summary>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.SearchItem">
+            <summary>
+            Represents a search item.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.SearchItem.Chance">
+            <summary>
+            The probability of the search item.
+            </summary>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemChance"/>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.SearchItem.Location">
+            <summary>
+            The location of the search item.
+            </summary>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemLocation"/>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.SearchItem.Value">
+            <summary>
+            The text of the search item.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.SearchItem.#ctor(System.String,Rage.Ped,PolicingRedefined.Interaction.Assets.EItemChance)">
+            <summary>
+            Creates an instance.
+            </summary>
+            <param name="item">The text of the item.</param>
+            <param name="foundOn">Which ped the item belongs to.</param>
+            <param name="chance">The probability of the item.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemChance"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemLocation"/>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.SearchItem.#ctor(System.String,PolicingRedefined.Interaction.Assets.EItemLocation,Rage.Vehicle,PolicingRedefined.Interaction.Assets.EItemChance)">
+            <summary>
+            Creates an instance.
+            </summary>
+            <param name="item">The text of the item.</param>
+            <param name="itemLocation">The location of the item.</param>
+            <param name="foundIn">Which vehicle the item belongs to.</param>
+            <param name="chance">The probability of the item.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemChance"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemLocation"/>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.SearchItem.Deserialize">
+            <summary>
+            Deserializes this search item.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.SearchItem.CloneThis(PolicingRedefined.Interaction.Assets.SearchItem)">
+            <summary>
+            Specifically clones this search item.
+            </summary>
+            <param name="clone">The current object to clone.</param>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.SearchItem.Clone">
+            <summary>
+            Clones the current search item object.
+            </summary>
+            <returns>Cloned search item.</returns>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.SearchItem.ToString">
+            <summary>
+            Turns the search item into a string.
+            </summary>
+            <returns>The created string.</returns>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.EFirearmState">
+            <summary>
+            Specifies the different states of a firearm.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EFirearmState.Normal">
+            <summary>
+            The firearm is OK.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.EFirearmState.ScratchedSN">
+            <summary>
+            The firearm's serial number is scratched.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.FirearmItem">
+            <summary>
+            Represents a firearm search item.
+            </summary>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.SearchItem"/>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.FirearmItem.FirearmState">
+            <summary>
+            The state of the firearm.
+            </summary>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EFirearmState"/>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.FirearmItem.IsStolen">
+            <summary>
+            Whether the firearm is stolen.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Interaction.Assets.FirearmItem.WeaponModelId">
+            <summary>
+            The gta weapon model id of this firearm item.
+            </summary>
+            <remarks>This will default to 'WEAPON_PISTOL' if required (e.g. <see cref="P:PolicingRedefined.Interaction.Assets.FirearmItem.WeaponModelHash"/>).</remarks>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.FirearmItem.IsVisible">
+            <summary>
+            Whether the firearm is being carried open.
+            </summary>
+        </member>
+        <member name="P:PolicingRedefined.Interaction.Assets.FirearmItem.WeaponModelHash">
+            <summary>
+            The weapon hash associated with this firearm item.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.FirearmItem.#ctor(System.String,Rage.Ped,System.Boolean,System.String,System.Boolean,System.Nullable{PolicingRedefined.Interaction.Assets.EFirearmState},PolicingRedefined.Interaction.Assets.EItemChance)">
+            <summary>
+            Creates an instance.
+            </summary>
+            <param name="item">The text of the item.</param>
+            <param name="chance">The probability of the item.</param>
+            <param name="foundOn">The ped the item belongs to.</param>
+            <param name="isStolen">Whether the firearm is stolen.</param>
+            <param name="weaponModelId">See <see cref="P:PolicingRedefined.Interaction.Assets.FirearmItem.WeaponModelId"/> for more info.</param>
+            <param name="isVisible">Whether the firearm is being carried open.</param>
+            <param name="state">The state of the firearm.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemChance"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemLocation"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EFirearmState"/>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.FirearmItem.#ctor(System.String,PolicingRedefined.Interaction.Assets.EItemLocation,Rage.Vehicle,System.Boolean,System.String,System.Boolean,System.Nullable{PolicingRedefined.Interaction.Assets.EFirearmState},PolicingRedefined.Interaction.Assets.EItemChance)">
+            <summary>
+            Creates an instance.
+            </summary>
+            <param name="item">The text of the item.</param>
+            <param name="itemLocation">The location of the item.</param>
+            <param name="foundIn">The vehicle the item belongs to.</param>
+            <param name="isStolen">Whether the firearm is stolen.</param>
+            <param name="weaponModelId">See <see cref="P:PolicingRedefined.Interaction.Assets.FirearmItem.WeaponModelId"/> for more info.</param>
+            <param name="isVisible">Whether the firearm is being carried open.</param>
+            <param name="state">The state of the firearm.</param>
+            <param name="chance">The probability of the item.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemChance"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemLocation"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EFirearmState"/>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.FirearmItem.#ctor(System.String,PolicingRedefined.Engine.Entities.Pickup,System.Boolean,System.String,System.Boolean,System.Nullable{PolicingRedefined.Interaction.Assets.EFirearmState},PolicingRedefined.Interaction.Assets.EItemChance)">
+            <summary>
+            Creates an instance.
+            </summary>
+            <param name="item">The text of the item.</param>
+            <param name="pickup">Object of a pickup which was picked up by the player.</param>
+            <param name="isStolen">Whether the firearm is stolen.</param>
+            <param name="weaponModelId">See <see cref="P:PolicingRedefined.Interaction.Assets.FirearmItem.WeaponModelId"/> for more info.</param>
+            <param name="isVisible">Whether the firearm is being carried open.</param>
+            <param name="state">The state of the firearm.</param>
+            <param name="chance">The probability of the item.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemChance"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemLocation"/>
+            <seealso cref="T:PolicingRedefined.Engine.Entities.Pickup"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EFirearmState"/>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.FirearmItem.Deserialize">
+            <summary>
+            Deserializes this firearm item.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.FirearmItem.CloneThis(PolicingRedefined.Interaction.Assets.SearchItem)">
+            <summary>
+            Specifically clones this search item.
+            </summary>
+            <param name="clone">The current object to clone.</param>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.FirearmItem.ToString">
+            <summary>
+            Turns the firearm item into a string.
+            </summary>
+            <returns>The created string.</returns>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.WeaponItem">
+            <summary>
+            Represents a weapon search item.
+            </summary>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.SearchItem"/>
+        </member>
+        <member name="P:PolicingRedefined.Interaction.Assets.WeaponItem.WeaponModelId">
+            <summary>
+            The gta weapon model id of this firearm item.
+            </summary>
+            <remarks>This will default to 'WEAPON_KNIFE' if required (e.g. accessing <see cref="P:PolicingRedefined.Interaction.Assets.WeaponItem.WeaponModelHash"/>).</remarks>
+        </member>
+        <member name="P:PolicingRedefined.Interaction.Assets.WeaponItem.WeaponModelHash">
+            <summary>
+            The weapon hash associated with this weapon item.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.WeaponItem.#ctor(System.String,Rage.Ped,System.String,PolicingRedefined.Interaction.Assets.EItemChance)">
+            <summary>
+            Creates an instance.
+            </summary>
+            <param name="item">The text of the item.</param>
+            <param name="foundOn">Which ped the item belongs to.</param>
+            <param name="weaponModelId">See <see cref="P:PolicingRedefined.Interaction.Assets.WeaponItem.WeaponModelId"/> for more info.</param>
+            <param name="chance">The probability of the item.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemChance"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemLocation"/>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.WeaponItem.#ctor(System.String,PolicingRedefined.Interaction.Assets.EItemLocation,Rage.Vehicle,System.String,PolicingRedefined.Interaction.Assets.EItemChance)">
+            <summary>
+            Creates an instance.
+            </summary>
+            <param name="item">The text of the item.</param>
+            <param name="itemLocation">The location of the item.</param>
+            <param name="foundIn">Which vehicle the item belongs to.</param>
+            <param name="weaponModelId">See <see cref="P:PolicingRedefined.Interaction.Assets.WeaponItem.WeaponModelId"/> for more info.</param>
+            <param name="chance">The probability of the item.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemChance"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemLocation"/>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.WeaponItem.#ctor(System.String,PolicingRedefined.Engine.Entities.Pickup,System.String,PolicingRedefined.Interaction.Assets.EItemChance)">
+            <summary>
+            Creates an instance.
+            </summary>
+            <param name="item">The text of the item.</param>
+            <param name="pickup">Object of a pickup which was picked up by the player.</param>
+            <param name="weaponModelId">See <see cref="P:PolicingRedefined.Interaction.Assets.WeaponItem.WeaponModelId"/> for more info.</param>
+            <param name="chance">The probability of the item.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemChance"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemLocation"/>
+            <seealso cref="T:PolicingRedefined.Engine.Entities.Pickup"/>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.WeaponItem.Deserialize">
+            <summary>
+            Deserializes this weapon item.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.WeaponItem.CloneThis(PolicingRedefined.Interaction.Assets.SearchItem)">
+            <summary>
+            Specifically clones this search item.
+            </summary>
+            <param name="clone">The current object to clone.</param>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.DrugItem">
+            <summary>
+            Represents a weapon search item.
+            </summary>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.SearchItem"/>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.DrugItem.DrugType">
+            <summary>
+            The type of the drugs that the item represents.
+            </summary>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EDrugType"/>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.DrugItem.#ctor(System.String,Rage.Ped,PolicingRedefined.Interaction.Assets.EDrugType,PolicingRedefined.Interaction.Assets.EItemChance)">
+            <summary>
+            Creates an instance.
+            </summary>
+            <param name="item">The text of the item.</param>
+            <param name="foundOn">Which ped the item belongs to.</param>
+            <param name="drugType">The drug(s) the item represents.</param>
+            <param name="chance">The probability of the item.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemChance"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemLocation"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EDrugType"/>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.DrugItem.#ctor(System.String,PolicingRedefined.Interaction.Assets.EItemLocation,Rage.Vehicle,PolicingRedefined.Interaction.Assets.EDrugType,PolicingRedefined.Interaction.Assets.EItemChance)">
+            <summary>
+            Creates an instance.
+            </summary>
+            <param name="item">The text of the item.</param>
+            <param name="itemLocation">The location of the item.</param>
+            <param name="foundIn">Which vehicle the item belongs to.</param>
+            <param name="drugType">The drug(s) the item represents.</param>
+            <param name="chance">The probability of the item.</param>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemChance"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EItemLocation"/>
+            <seealso cref="T:PolicingRedefined.Interaction.Assets.EDrugType"/>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.DrugItem.CloneThis(PolicingRedefined.Interaction.Assets.SearchItem)">
+            <summary>
+            Specifically clones this search item.
+            </summary>
+            <param name="clone">The current object to clone.</param>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.DrugItem.ToString">
+            <summary>
+            Turns the drug item into a string.
+            </summary>
+            <returns>The created string.</returns>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Assets.VehicleAttributes.VehicleSearchItems">
+            <summary>
+            Represents vehicle search items.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.VehicleAttributes.VehicleSearchItems.GreenItems">
+            <summary>
+            Legal items.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.VehicleAttributes.VehicleSearchItems.YellowItems">
+            <summary>
+            Suspicious items.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Assets.VehicleAttributes.VehicleSearchItems.RedItems">
+            <summary>
+            Illegal items.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Assets.VehicleAttributes.VehicleSearchItems.GetVehicleSearchItemsFormatted(System.Collections.Generic.List{PolicingRedefined.Interaction.Assets.SearchItem},System.Boolean)">
+            <summary>
+            Returns a string which should be used in the results notification for vehicle searches
+            </summary>
+            <param name="searchItems"></param>
+            <param name="separateBasedOnLocation"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Managers.WeaponLocation">
+            <summary>
+            The location of the weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.WeaponLocation.FrontDoors">
+            <summary>
+            At the front doors.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.WeaponLocation.Trunk">
+            <summary>
+            In the trunk.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.WeaponLocation.Any">
+            <summary>
+            Unspecified.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Managers.Loadouts">
+            <summary>
+            Represents loadouts.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.Loadouts.AllLoadouts">
+            <summary>
+            Stores all loadouts.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Managers.Loadout">
+            <summary>
+            Represents a loadout.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.Loadout.LoadoutName">
+            <summary>
+            The name of the loadout.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.Loadout.IsDefaultLoadout">
+            <summary>
+            Whether this is the default loadout.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.Loadout.LoadoutWeapons">
+            <summary>
+            The weapons of the loadout.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Managers.LoadoutWeapon">
+            <summary>
+            Represents a loadout weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.LoadoutWeapon.WeaponDisplayName">
+            <summary>
+            The display name of the weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.LoadoutWeapon.WeaponHash">
+            <summary>
+            The hash of the weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.LoadoutWeapon.WeaponAmmo">
+            <summary>
+            The starting amount of ammo.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.LoadoutWeapon.WeaponTintIndex">
+            <summary>
+            The tint index of the weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.LoadoutWeapon.IsVehWeapon">
+            <summary>
+            Whether it's a vehicle weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.LoadoutWeapon.UseRackingAnimation">
+            <summary>
+            Whether to play a racking animation after equipping the weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.LoadoutWeapon.WeaponLocation">
+            <summary>
+            The location of the weapon.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.LoadoutWeapon.WeaponComponents">
+            <summary>
+            The components of the weapon.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Managers.WeaponComponent">
+            <summary>
+            Represents a weapon component.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Managers.WeaponComponent.ComponentHash">
+            <summary>
+            The hash of the component.
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Modules.General.PatrolVehicle.GiveWeapon(PolicingRedefined.Interaction.Managers.LoadoutWeapon,System.Boolean)">
+            <summary>
+            Gives the player a <see cref="T:PolicingRedefined.Interaction.Managers.LoadoutWeapon"/>
+            </summary>
+            <param name="weapon"></param>
+            <param name="equipNow"></param>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Modules.General.PatrolVehicle.DoesPlayerHaveAnyWeapon">
+            <summary>
+            Does the same as <see cref="M:PolicingRedefined.Interaction.Modules.General.PatrolVehicle.DoesPlayerHaveWeapon(PolicingRedefined.Interaction.Managers.LoadoutWeapon)"/> except it checks for all <see cref="T:PolicingRedefined.Interaction.Managers.LoadoutWeapon"/> in <see cref="F:PolicingRedefined.Interaction.Managers.LoadoutManager.AllPatrolVehicleWeapons"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Modules.General.PatrolVehicle.DoesPlayerHaveWeapon(PolicingRedefined.Interaction.Managers.LoadoutWeapon)">
+            <summary>
+            Checks if the player has a <see cref="T:PolicingRedefined.Interaction.Managers.LoadoutWeapon"/> in their inventory
+            </summary>
+            <param name="weapon"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Modules.General.PatrolVehicle.RemoveWeapon(PolicingRedefined.Interaction.Managers.LoadoutWeapon)">
+            <summary>
+            Removes a <see cref="T:PolicingRedefined.Interaction.Managers.LoadoutWeapon"/> from the players inventory
+            </summary>
+            <param name="weapon"></param>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Modules.General.PatrolVehicle.RefillPlayerWeaponAmmo">
+            <summary>
+            Refills the ammo
+            </summary>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Modules.PedStop.StoppedPed.StopAnyAction(System.Boolean)">
+            <remarks>
+            This will also stop a <see cref="F:PolicingRedefined.Interaction.Modules.PedStop.StoppedPed.LeanVeh"/> task.
+            </remarks>
+            <param name="showUiNotif">Whether to show a UI notification.</param>
+        </member>
+        <member name="M:PolicingRedefined.Interaction.Modules.PedStop.StoppedPed.SetPedIsArrestedWithoutBlip(System.Boolean)">
+            <summary>
+            Use this ONLY in <see cref="M:PolicingRedefined.Interaction.Modules.PedStop.PedStopController.ReleaseStoppedPed(PolicingRedefined.Interaction.Modules.PedStop.StoppedPed,System.Boolean)"/>.
+            Else please use <see cref="P:PolicingRedefined.Interaction.Modules.PedStop.StoppedPed.IsArrested"/>.
+            </summary>
+            <param name="value">Whether the ped is arrested.</param>
+        </member>
+        <member name="T:PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction">
+            <summary>
+            Specifies the different resistance actions.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction.None">
+            <summary>
+            The ped will not resist.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction.Flee">
+            <summary>
+            The ped will flee.
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction.Attack">
+            <summary>
+            The ped will attack. 
+            </summary>
+        </member>
+        <member name="F:PolicingRedefined.Interaction.Modules.Resistance.EResistanceAction.Uncooperative">
+            <summary>
+            The ped will refuse to follow orders.
+            </summary>
+        </member>
+        <member name="T:PolicingRedefined.EntryPoint">
+            <summary/>
+        </member>
+        <member name="M:PolicingRedefined.EntryPoint.Initialize">
+            <summary/>
+        </member>
+        <member name="M:PolicingRedefined.EntryPoint.Finally">
+            <summary/>
+        </member>
+    </members>
+</doc>
