@@ -8,7 +8,7 @@ public class EntryPoint : Plugin
 {
     public override void Initialize()
     {
-        Game.Console.Print("[EverydayCallouts] Version 0.0.0.1 by Stickbug813 has been initialised.");
+        Game.Console.Print("[EverydayCallouts] Version 0.0.0.2 by Stickbug813 has been initialised.");
 
         // Hook the OnDuty state change
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
