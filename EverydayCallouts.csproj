@@ -10,8 +10,8 @@
 		<Company></Company>
 		<Product>EverydayCallouts</Product>
 		<Authors>Stickbug813</Authors>
-		<Version>0.0.0.1</Version>
-		<FileVersion>0.0.0.1</FileVersion>
+		<Version>0.0.0.2</Version>
+		<FileVersion>0.0.0.2</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

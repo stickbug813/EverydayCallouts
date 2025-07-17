@@ -12,7 +12,6 @@ namespace EverydayCallouts.Callouts
     {
         private Ped Caller;
         private int dialogCounter = 0;
-        private bool isNearCaller = false;
         private bool hasCallerApproachedPlayer = false;
         private bool hasTalkedToCaller = false;
         private bool hasDisplayedIntroSubtitle = false;
@@ -102,20 +101,31 @@ namespace EverydayCallouts.Callouts
         {
             base.Process();
 
+            if (!hasDisplayedIntroSubtitle && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 10f)
+            {
+                Game.DisplaySubtitle("Officer, over here!");
+                hasDisplayedIntroSubtitle = true;
+            }
+
+            if (!hasCallerApproachedPlayer && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 15f && !Game.LocalPlayer.Character.IsInAnyVehicle(false))
+            {
+                Caller.Tasks.Clear();
+                Caller.Tasks.GoToOffsetFromEntity(Game.LocalPlayer.Character, -1, 3.5f, 0f, 1.5f);
+                Caller.KeepTasks = true;
+
+                hasCallerApproachedPlayer = true;
+                CallerBlip.IsRouteEnabled = false;
+            }
+
             if (!hasTalkedToCaller && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 3.0f && !Game.LocalPlayer.Character.IsInAnyVehicle(false))
             {
                 Game.DisplayHelp("Press ~y~Y~s~ to talk to the caller", false);
 
-                if (!hasDisplayedIntroSubtitle)
-                {
-                    Game.DisplaySubtitle("Officer, over here!");
-                    hasDisplayedIntroSubtitle = true;
-                }
-
                 if (Game.IsKeyDown(System.Windows.Forms.Keys.Y))
                 {
                     Caller.Tasks.Clear();
-                    Caller.Tasks.AchieveHeading(Game.LocalPlayer.Character.Heading);
+                    Caller.Tasks.StandStill(-1);
+                    Caller.Face(Game.LocalPlayer.Character);
 
                     dialogCounter++;
 
