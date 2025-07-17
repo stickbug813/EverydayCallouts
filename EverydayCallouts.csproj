@@ -5,6 +5,13 @@
 		<RootNamespace>EverydayCallouts</RootNamespace>
 		<LangVersion>latest</LangVersion>
 		<PlatformTarget>x64</PlatformTarget>
+		<AssemblyTitle>EverydayCallouts</AssemblyTitle>
+		<Description>Everyday Callouts You'd See in Real Life</Description>
+		<Company></Company>
+		<Product>EverydayCallouts</Product>
+		<Authors>Stickbug813</Authors>
+		<Version>0.0.0.1</Version>
+		<FileVersion>0.0.0.1</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
