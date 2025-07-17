@@ -1,4 +1,5 @@
-﻿using Rage;
+﻿using System;
+using Rage;
 using LSPD_First_Response.Mod.API;
 using EverydayCallouts.Callouts;
 
@@ -7,29 +8,12 @@ public class EntryPoint : Plugin
 {
     public override void Initialize()
     {
-        Game.Console.Print("[EverydayCallouts] Plugin initializing...");
+        Game.Console.Print("[EverydayCallouts] Version 0.0.0.1 by Stickbug813 has been initialised.");
 
         // Hook the OnDuty state change
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
 
         Game.Console.Print("[EverydayCallouts] Plugin initialized.");
-    }
-
-    private void OnDutyStateChanged(bool onDuty)
-    {
-        if (onDuty)
-        {
-            Game.Console.Print("[EverydayCallouts] Player went ON DUTY.");
-        }
-        else
-        {
-            Game.Console.Print("[EverydayCallouts] Player went OFF DUTY.");
-        }
-    }
-
-    public override void Finally()
-    {
-        Game.Console.Print("[EverydayCallouts] Plugin shutting down...");
     }
 
     private static void OnOnDutyStateChangedHandler(bool OnDuty)
@@ -38,6 +22,7 @@ public class EntryPoint : Plugin
         {
             RegisterCallouts();
             Game.Console.Print("[EverydayCallouts] Player went ON DUTY.");
+            Game.DisplayNotification("~g~Everyday Callouts~s~: Callouts are now available. Version 0.0.0.1");
         }
         else
         {
@@ -52,4 +37,10 @@ public class EntryPoint : Plugin
         Functions.RegisterCallout(typeof(NoiseComplaint));
 
     }
+
+    public override void Finally()
+    {
+        Game.Console.Print("[EverydayCallouts] Plugin shutting down...");
+    }
+
 }

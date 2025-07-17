@@ -15,6 +15,7 @@ namespace EverydayCallouts.Callouts
         private bool isNearCaller = false;
         private bool hasCallerApproachedPlayer = false;
         private bool hasTalkedToCaller = false;
+        private bool hasDisplayedIntroSubtitle = false;
         private Ped Neighbor;
         private Blip CallerBlip;
         private Blip NeighborBlip;
@@ -32,11 +33,34 @@ namespace EverydayCallouts.Callouts
 
         public override bool OnBeforeCalloutDisplayed()
         {
-            var group = _spawnGroups[new Random().Next(_spawnGroups.Count)];
+            Vector3 playerPos = Game.LocalPlayer.Character.Position;
 
-            SpawnPoint = new Vector3(group.SpawnPoint.X, group.SpawnPoint.Y, group.SpawnPoint.Z);
-            CallerPos = group.CallerSpawn;
-            NeighborPos = group.NeighborSpawn;
+            // Find the closest spawn group to the player
+            float closestDistance = float.MaxValue;
+            (Vector4 SpawnPoint, Vector4 CallerSpawn, Vector4 NeighborSpawn) closestGroup = default;
+
+            foreach (var group in _spawnGroups)
+            {
+                Vector3 spawn = new Vector3(group.SpawnPoint.X, group.SpawnPoint.Y, group.SpawnPoint.Z);
+                float distance = playerPos.DistanceTo(spawn);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestGroup = group;
+                }
+            }
+
+            // Don't run the callout if it's too far from the player
+            if (closestDistance > 550f)
+            {
+                return false;
+            }
+
+            // Otherwise, continue with setup
+            SpawnPoint = new Vector3(closestGroup.SpawnPoint.X, closestGroup.SpawnPoint.Y, closestGroup.SpawnPoint.Z);
+            CallerPos = closestGroup.CallerSpawn;
+            NeighborPos = closestGroup.NeighborSpawn;
 
             AddMinimumDistanceCheck(100f, SpawnPoint);
             AddMaximumDistanceCheck(550f, SpawnPoint);
@@ -48,6 +72,7 @@ namespace EverydayCallouts.Callouts
 
             return base.OnBeforeCalloutDisplayed();
         }
+
 
         public override bool OnCalloutAccepted()
         {
@@ -77,24 +102,18 @@ namespace EverydayCallouts.Callouts
         {
             base.Process();
 
-            if (!hasCallerApproachedPlayer && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 15f && !Game.LocalPlayer.Character.IsInAnyVehicle(false))
-            {
-                Caller.Tasks.Clear();
-                Caller.Tasks.GoToOffsetFromEntity(Game.LocalPlayer.Character, -1, 2.0f, 0f, 1.0f);
-
-                hasCallerApproachedPlayer = true;
-                CallerBlip.IsRouteEnabled = false;
-            }
-
             if (!hasTalkedToCaller && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 3.0f && !Game.LocalPlayer.Character.IsInAnyVehicle(false))
             {
                 Game.DisplayHelp("Press ~y~Y~s~ to talk to the caller", false);
-                Game.DisplaySubtitle("Officer, over here!");
+
+                if (!hasDisplayedIntroSubtitle)
+                {
+                    Game.DisplaySubtitle("Officer, over here!");
+                    hasDisplayedIntroSubtitle = true;
+                }
 
                 if (Game.IsKeyDown(System.Windows.Forms.Keys.Y))
                 {
-                    hasTalkedToCaller = false;
-
                     Caller.Tasks.Clear();
                     Caller.Tasks.AchieveHeading(Game.LocalPlayer.Character.Heading);
 
@@ -102,7 +121,7 @@ namespace EverydayCallouts.Callouts
 
                     if (dialogCounter == 1)
                     {
-                        Game.DisplaySubtitle("Hi. We got a call to this address for a noise complaient? Are you the caller");
+                        Game.DisplaySubtitle("Hi. We got a call to this address for a noise complaint? Are you the caller?");
                     }
                     else if (dialogCounter == 2)
                     {
@@ -118,8 +137,6 @@ namespace EverydayCallouts.Callouts
                         hasTalkedToCaller = true;
                     }
                 }
-
-
             }
         }
 
