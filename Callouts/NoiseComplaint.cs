@@ -1,3 +1,4 @@
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
@@ -6,21 +7,32 @@ using System.Collections.Generic;
 
 namespace EverydayCallouts.Callouts
 {
-    [CalloutInfo("Noise Complaint", CalloutProbability.High)]
+    [CalloutInterface
+        ("Noise Complaint", CalloutProbability.Medium, "Neighbor is reporting loud party happening in upstairs appartment.", "Code 1", "LSPD")
+    ]
 
     public class NoiseComplaint : Callout
     {
+        // Characters
         private Ped Caller;
+        private Ped Neighbor;
+
+        // Blips
+        private Blip CallerBlip;
+        private Blip NeighborBlip;
+        private Blip calloutBlip;
+
+        // Positions
+        private Vector3 SpawnPoint;
+        private Vector4 CallerPos;
+        private Vector4 NeighborPos;
+
+        // Dialog / State Tracking
         private int dialogCounter = 0;
         private bool hasCallerApproachedPlayer = false;
         private bool hasTalkedToCaller = false;
         private bool hasDisplayedIntroSubtitle = false;
-        private Ped Neighbor;
-        private Blip CallerBlip;
-        private Blip NeighborBlip;
-        private Vector3 SpawnPoint;
-        private Vector4 CallerPos;
-        private Vector4 NeighborPos;
+
         private List<(Vector4 SpawnPoint, Vector4 CallerSpawn, Vector4 NeighborSpawn)> _spawnGroups =
             new List<(Vector4, Vector4, Vector4)>
             {
@@ -50,7 +62,6 @@ namespace EverydayCallouts.Callouts
                 }
             }
 
-            // Don't run the callout if it's too far from the player
             if (closestDistance > 550f)
             {
                 return false;
@@ -65,8 +76,10 @@ namespace EverydayCallouts.Callouts
             AddMaximumDistanceCheck(550f, SpawnPoint);
             ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 20f);
 
-            Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_CIVIL_DISTURBANCE_01, AREA, STREETS", SpawnPoint);
+            LSPD_First_Response.Mod.API.Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_CIVIL_DISTURBANCE_01, AREA, STREETS", SpawnPoint);
+
             CalloutMessage = "Noise Complaint";
+            CalloutAdvisory = "A noise complaint has been reported in the area. Please respond Code 1.";
             CalloutPosition = SpawnPoint;
 
             return base.OnBeforeCalloutDisplayed();
@@ -88,12 +101,13 @@ namespace EverydayCallouts.Callouts
                 AnimationFlags.Loop | AnimationFlags.UpperBodyOnly
             );
 
-            // Create the blips for the caller and neighbor
-            CallerBlip = Caller.AttachBlip();
-            CallerBlip.Color = System.Drawing.Color.Yellow;
-            CallerBlip.Name = "Caller";
-            CallerBlip.IsRouteEnabled = true;
-          
+            calloutBlip = new Blip(SpawnPoint, 15f);
+            calloutBlip.Color = System.Drawing.Color.Yellow;
+            calloutBlip.Alpha = 0.5f;
+            calloutBlip.Name = "Callout Area";
+            calloutBlip.IsRouteEnabled = true;
+
+
             return base.OnCalloutAccepted();
         }
 
@@ -101,16 +115,22 @@ namespace EverydayCallouts.Callouts
         {
             base.Process();
 
-            if (!hasDisplayedIntroSubtitle && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 10f)
+            if (!hasDisplayedIntroSubtitle && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 30f)
             {
                 Game.DisplaySubtitle("Officer, over here!");
                 hasDisplayedIntroSubtitle = true;
+                CallerBlip = Caller.AttachBlip();
+                CallerBlip.Color = System.Drawing.Color.Yellow;
+                CallerBlip.Name = "Caller";
+                calloutBlip.Delete();
+
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer is making contact with caller");
             }
 
             if (!hasCallerApproachedPlayer && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 15f && !Game.LocalPlayer.Character.IsInAnyVehicle(false))
             {
                 Caller.Tasks.Clear();
-                Caller.Tasks.GoToOffsetFromEntity(Game.LocalPlayer.Character, -1, 3.5f, 0f, 1.5f);
+                Caller.Tasks.GoToOffsetFromEntity(Game.LocalPlayer.Character, -1, 3.5f, 0f, 0.9f);
                 Caller.KeepTasks = true;
 
                 hasCallerApproachedPlayer = true;
@@ -119,12 +139,12 @@ namespace EverydayCallouts.Callouts
 
             if (!hasTalkedToCaller && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 3.0f && !Game.LocalPlayer.Character.IsInAnyVehicle(false))
             {
+                Caller.Tasks.Clear();
+                Caller.Tasks.StandStill(-1);
                 Game.DisplayHelp("Press ~y~Y~s~ to talk to the caller", false);
 
                 if (Game.IsKeyDown(System.Windows.Forms.Keys.Y))
                 {
-                    Caller.Tasks.Clear();
-                    Caller.Tasks.StandStill(-1);
                     Caller.Face(Game.LocalPlayer.Character);
 
                     dialogCounter++;
@@ -149,18 +169,21 @@ namespace EverydayCallouts.Callouts
                 }
             }
         }
-
-
-
-        public override void End()
+   
+     public override void End()
         {
-            // Logic to clean up after the callout is finished
             base.End();
 
             if (Caller.Exists())
             {
+                Caller.Tasks.Clear();
                 Caller.Dismiss();
                 CallerBlip.Delete();
+            }
+
+            if (calloutBlip.Exists())
+            {
+                calloutBlip.Delete();
             }
         }
     }
