@@ -9,6 +9,7 @@ namespace EverydayCallouts.Engine
         {
             "CalloutInterfaceAPI.dll",
             "CommonDataFramework.dll",
+            "RAGENativeUI.dll",
         };
 
         public static (bool success, List<string> missingDependencies) CheckAll()

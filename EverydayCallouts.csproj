@@ -5,6 +5,7 @@
 		<RootNamespace>EverydayCallouts</RootNamespace>
 		<LangVersion>latest</LangVersion>
 		<PlatformTarget>x64</PlatformTarget>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -26,13 +27,14 @@
 		<Reference Include="PolicingRedefined">
 			<HintPath>References\PolicingRedefined.dll</HintPath>
 		</Reference>
+		<Reference Include="RageNativeUI">
+			<HintPath>References\RageNativeUI.dll</HintPath>
+		</Reference>
 		<Reference Include="System.Windows.Forms" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Callouts\" />
-		<Folder Include="Engine\" />
-		<Folder Include="Logging\" />
+	  <PackageReference Include="System.Text.Json" Version="9.0.7" />
 	</ItemGroup>
 
 </Project>

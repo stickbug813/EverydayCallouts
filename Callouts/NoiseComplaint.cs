@@ -1,14 +1,19 @@
 using CalloutInterfaceAPI;
+using EverydayCallouts.Engine;
+using EverydayCallouts.Logging;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace EverydayCallouts.Callouts
 {
     [CalloutInterface
-        ("Noise Complaint", CalloutProbability.Medium, "Neighbor is reporting loud party happening in upstairs appartment.", "Code 1", "LSPD")
+        ("Noise Complaint", CalloutProbability.Medium, "Caller is reporting a loud party happening in an upstairs appartment.", "Code 1", "LSPD")
     ]
 
     public class NoiseComplaint : Callout
@@ -28,17 +33,23 @@ namespace EverydayCallouts.Callouts
         private Vector4 NeighborPos;
 
         // Dialog / State Tracking
-        private int dialogCounter = 0;
+        private DialogueRunner runner;
         private bool hasCallerApproachedPlayer = false;
         private bool hasTalkedToCaller = false;
         private bool hasDisplayedIntroSubtitle = false;
 
+        // Menu
+        private UIMenu callermenu;
+        private MenuPool menuPool = new MenuPool();
+
+
+
         private List<(Vector4 SpawnPoint, Vector4 CallerSpawn, Vector4 NeighborSpawn)> _spawnGroups =
             new List<(Vector4, Vector4, Vector4)>
             {
-                (new Vector4(-1054.59f, -1003.173f, 1.150192f, 110.9069f), // SpawnPoint
-                new Vector4(-1056.478f, -1000.202f, 1.150192f, 126.4022f), // CallerSpawn
-                new Vector4(-1054.645f, -999.9692f, 5.41049f, 189.0671f)) // NeihborSpawn
+                (new Vector4(-1054.59f, -1003.173f, 1.150192f, 110.9069f),
+                new Vector4(-1056.478f, -1000.202f, 1.150192f, 126.4022f),
+                new Vector4(-1054.645f, -999.9692f, 5.41049f, 189.0671f))
             };
 
 
@@ -46,7 +57,6 @@ namespace EverydayCallouts.Callouts
         {
             Vector3 playerPos = Game.LocalPlayer.Character.Position;
 
-            // Find the closest spawn group to the player
             float closestDistance = float.MaxValue;
             (Vector4 SpawnPoint, Vector4 CallerSpawn, Vector4 NeighborSpawn) closestGroup = default;
 
@@ -67,7 +77,6 @@ namespace EverydayCallouts.Callouts
                 return false;
             }
 
-            // Otherwise, continue with setup
             SpawnPoint = new Vector3(closestGroup.SpawnPoint.X, closestGroup.SpawnPoint.Y, closestGroup.SpawnPoint.Z);
             CallerPos = closestGroup.CallerSpawn;
             NeighborPos = closestGroup.NeighborSpawn;
@@ -78,8 +87,6 @@ namespace EverydayCallouts.Callouts
 
             LSPD_First_Response.Mod.API.Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_CIVIL_DISTURBANCE_01, AREA, STREETS", SpawnPoint);
 
-            CalloutMessage = "Noise Complaint";
-            CalloutAdvisory = "A noise complaint has been reported in the area. Please respond Code 1.";
             CalloutPosition = SpawnPoint;
 
             return base.OnBeforeCalloutDisplayed();
@@ -90,13 +97,18 @@ namespace EverydayCallouts.Callouts
         {
             Caller = new Ped(new Vector3(CallerPos.X, CallerPos.Y, CallerPos.Z), CallerPos.W);
             Caller.IsPersistent = true;
-            Caller.CanBeTargetted = false;
             Caller.CanPlayGestureAnimations = false;
             Caller.CanPlayAmbientAnimations = false;
 
+            if (!Caller.Exists())
+            {
+                Game.LogTrivial("Failed to create Caller Ped.");
+                return false;
+            }
+
             Caller.Tasks.PlayAnimation(
-                "gestures@m@standing@casual",
-                "gesture_hello",
+                "friends@frj@ig_1",
+                "wave_a",
                 1.0f,
                 AnimationFlags.Loop | AnimationFlags.UpperBodyOnly
             );
@@ -107,6 +119,17 @@ namespace EverydayCallouts.Callouts
             calloutBlip.Name = "Callout Area";
             calloutBlip.IsRouteEnabled = true;
 
+            callermenu = new UIMenu("Caller", "Speak with the caller");
+            MenuManager.Pool.Add(callermenu);
+
+            callermenu.Visible = false;
+
+            runner = new DialogueRunner();
+            runner.OnConversationEnd += () =>
+            {
+                Game.DisplaySubtitle("You finish talking to the caller.");
+            };
+
 
             return base.OnCalloutAccepted();
         }
@@ -115,7 +138,9 @@ namespace EverydayCallouts.Callouts
         {
             base.Process();
 
-            if (!hasDisplayedIntroSubtitle && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 30f)
+            menuPool.ProcessMenus();
+
+            if (!hasDisplayedIntroSubtitle && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 30f && Caller.IsAlive)
             {
                 Game.DisplaySubtitle("Officer, over here!");
                 hasDisplayedIntroSubtitle = true;
@@ -127,7 +152,13 @@ namespace EverydayCallouts.Callouts
                 CalloutInterfaceAPI.Functions.SendMessage(this, "Officer is making contact with caller");
             }
 
-            if (!hasCallerApproachedPlayer && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 15f && !Game.LocalPlayer.Character.IsInAnyVehicle(false))
+            else
+            {
+                string message = CalloutErrorMessages.PedDoesNotExist();
+                End();
+            }
+
+            if (!hasCallerApproachedPlayer && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 15f && !Game.LocalPlayer.Character.IsInAnyVehicle(false) && Caller.IsAlive)
             {
                 Caller.Tasks.Clear();
                 Caller.Tasks.GoToOffsetFromEntity(Game.LocalPlayer.Character, -1, 3.5f, 0f, 0.9f);
@@ -137,40 +168,27 @@ namespace EverydayCallouts.Callouts
                 CallerBlip.IsRouteEnabled = false;
             }
 
-            if (!hasTalkedToCaller && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 3.0f && !Game.LocalPlayer.Character.IsInAnyVehicle(false))
+            if (!hasTalkedToCaller && Game.LocalPlayer.Character.Position.DistanceTo(Caller.Position) < 3.0f && !Game.LocalPlayer.Character.IsInAnyVehicle(false) && Caller.IsAlive && Caller.IsOnScreen)
             {
                 Caller.Tasks.Clear();
                 Caller.Tasks.StandStill(-1);
                 Game.DisplayHelp("Press ~y~Y~s~ to talk to the caller", false);
 
-                if (Game.IsKeyDown(System.Windows.Forms.Keys.Y))
+                if (Game.IsKeyDown(Keys.Y))
                 {
-                    Caller.Face(Game.LocalPlayer.Character);
+                    runner.StartConversation(callermenu, "dialogue_noise_complaint.json",new Dictionary<string, string>{{ "timeofday", World.TimeOfDay.ToString(@"h:mm tt") }});
 
-                    dialogCounter++;
-
-                    if (dialogCounter == 1)
-                    {
-                        Game.DisplaySubtitle("Hi. We got a call to this address for a noise complaint? Are you the caller?");
-                    }
-                    else if (dialogCounter == 2)
-                    {
-                        Game.DisplaySubtitle("Caller: Yes officer, it's been insanely loud all night. My baby won't go to sleep with their party upstairs!");
-                    }
-                    else if (dialogCounter == 3)
-                    {
-                        Game.DisplaySubtitle("Alright, I’ll check it out. Please stay here. I'll find you if I need anything else.");
-                    }
-                    else if (dialogCounter > 3)
-                    {
-                        Game.DisplayHelp("Talk to the Neighbor upstairs");
-                        hasTalkedToCaller = true;
-                    }
+                    callermenu.Visible = true;
+                    hasTalkedToCaller = true;
                 }
+
             }
+
+            MenuManager.Pool.ProcessMenus();
+
         }
-   
-     public override void End()
+
+        public override void End()
         {
             base.End();
 
@@ -185,6 +203,13 @@ namespace EverydayCallouts.Callouts
             {
                 calloutBlip.Delete();
             }
+
+            if (callermenu != null)
+            {
+                MenuManager.Pool.Remove(callermenu);
+                callermenu = null;
+            }
+
         }
     }
 

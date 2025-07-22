@@ -6,7 +6,7 @@ using EverydayCallouts.Info;
 
 namespace EverydayCallouts.Logging
 {
-    public static class Initializing
+    public static class InitializeLogging
     {
         public static void PrintStartupInfo()
         {

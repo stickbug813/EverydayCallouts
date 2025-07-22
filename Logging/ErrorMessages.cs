@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace EverydayCallouts.Logging
 {
-    internal class ErrorMessages
-    {
-    }
-
     public static class InitializationErrors
     {
-        public static string MissingDependencies(string missing) => $"You are missing one or more required dependencies: {missing}";
+        public static string MissingDependencies(string missing) => $"[EverydayCallouts]: You are missing one or more required dependencies: {missing}";
     }
 }

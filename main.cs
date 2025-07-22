@@ -1,23 +1,20 @@
-﻿using System;
-using Rage;
-using LSPD_First_Response.Mod.API;
+﻿using LSPD_First_Response.Mod.API;
 using EverydayCallouts.Callouts;
 using EverydayCallouts.Logging;
 using EverydayCallouts.Engine;
-
 
 public class EntryPoint : Plugin
 {
     public override void Initialize()
     {
-        bool success = Initialization.Initialize();
+        bool success = Initialization.Startup();
 
         if (!success)
         {
             return;
         }
 
-        // Only runs if initialization succeeded
+        InitializeLogging.PrintStartupInfo();
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
     }
 

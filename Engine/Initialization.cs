@@ -6,7 +6,7 @@ namespace EverydayCallouts.Engine
 {
     internal class Initialization
     {
-        public static bool Initialize()
+        public static bool Startup()
         {
 
             var (success, missing) = DependencyChecker.CheckAll();

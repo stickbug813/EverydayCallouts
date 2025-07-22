@@ -1,0 +1,119 @@
+{
+  "nodes": [
+    {
+      "id": "1753139462300",
+      "title": "Caller",
+      "position": {
+        "x": 795.859375,
+        "y": 339.671875
+      },
+      "removeQuestionAfterAsked": true,
+      "startsConversation": true,
+      "data": {
+        "answers": [
+          {
+            "id": "1753139526933",
+            "text": "Yes. My upstairs neighbor is playing music way too loud. I understand it's {timeofday} but my windows are shaking and I'm trying to put my baby down.",
+            "probability": 50,
+            "condition": "Test",
+            "endsCondition": false,
+            "action": "Test"
+          },
+          {
+            "id": "1753140086133",
+            "text": "Yes. My neibhor upstairs won't turn down his music. He's been doing this every night for almost a week and it's ridiculous! ",
+            "probability": 50,
+            "endsCondition": false
+          }
+        ],
+        "questionText": "We got a call about a noise complaint on this address. I assume you're the caller.\n"
+      }
+    },
+    {
+      "id": "1753140230401",
+      "title": "Question Node",
+      "position": {
+        "x": 1332.3682031365686,
+        "y": 339.48201511853284
+      },
+      "removeQuestionAfterAsked": false,
+      "startsConversation": false,
+      "data": {
+        "answers": [
+          {
+            "id": "1753140278254",
+            "text": "Yes",
+            "probability": 34,
+            "endsCondition": false
+          },
+          {
+            "id": "1753140281174",
+            "text": "No",
+            "probability": 33,
+            "endsCondition": false
+          },
+          {
+            "id": "1753140284010",
+            "text": "",
+            "probability": 33,
+            "endsCondition": false
+          }
+        ],
+        "questionText": "Have you asked them to turn it down before? Is this the first time?"
+      }
+    },
+    {
+      "id": "1753140350096",
+      "title": "Question Node",
+      "position": {
+        "x": 1833.196643989194,
+        "y": 336.3948980236711
+      },
+      "removeQuestionAfterAsked": false,
+      "startsConversation": false,
+      "data": {
+        "answers": [
+          {
+            "id": "1753140436494",
+            "text": "Thanks!",
+            "probability": 100,
+            "endsCondition": false
+          },
+          {
+            "id": "1753140442703",
+            "text": "Thank you!",
+            "probability": 0,
+            "endsCondition": false
+          },
+          {
+            "id": "1753140448267",
+            "text": "Awesome. ",
+            "probability": 0,
+            "endsCondition": false
+          }
+        ],
+        "questionText": "Stand back over by your door. I'll take the them. I'll come find you if I need anything else. "
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "1753140307704",
+      "from": {
+        "nodeId": "1753139462300"
+      },
+      "to": {
+        "nodeId": "1753140230401"
+      }
+    },
+    {
+      "id": "1753140454320",
+      "from": {
+        "nodeId": "1753140230401"
+      },
+      "to": {
+        "nodeId": "1753140350096"
+      }
+    }
+  ]
+}
