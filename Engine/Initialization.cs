@@ -14,8 +14,9 @@ namespace EverydayCallouts.Engine
 {
                 ("CalloutInterfaceAPI.dll", "1.0.0.0"),
                 ("CommonDataFramework.dll", "1.0.0.0"),
-                ("RageNativeUI.dll", "1.8.0.0")
-};
+                ("RageNativeUI.dll", "1.8.0.0"),
+                ("DialogueSystem.dll", "1.0.0.0")
+            };
 
             var (success, missing) = DependencyChecker.CheckAll(dependencies);
 

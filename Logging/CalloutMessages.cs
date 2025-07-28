@@ -22,6 +22,8 @@ namespace EverydayCallouts.Logging
 
         public static void RNUIMenuOpening() { Game.LogTrivial("[EverydayCallouts]: RageNativeUI menu is opening."); }
 
+        public static void CalloutCleanedUp() { Game.LogTrivial("[EverydayCallouts]: Callout has been cleaned up."); }
+
     }
 }
         

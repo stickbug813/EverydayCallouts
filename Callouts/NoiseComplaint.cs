@@ -6,6 +6,7 @@ using EverydayCallouts.Logging;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using RAGENativeUI;
+using RAGENativeUI.PauseMenu;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -81,7 +82,7 @@ namespace EverydayCallouts.Callouts
             AddMaximumDistanceCheck(550f, SpawnPoint);
             ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 20f);
 
-            LSPD_First_Response.Mod.API.Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_CIVIL_DISTURBANCE IN_OR_ON_POSITION", SpawnPoint);
+            LSPD_First_Response.Mod.API.Functions.PlayScannerAudioUsingPosition("DISPATCH_INTRO CITIZENS_REPORT CRIME_DISTURBING_THE_PEACE IN_OR_ON_POSITION OUTRO", SpawnPoint);
 
             CalloutPosition = SpawnPoint;
 
@@ -100,12 +101,12 @@ namespace EverydayCallouts.Callouts
 
             if (!Caller.Exists())
             {
-
                 return false;
             }
 
             callerconvo.Init();
             MenuManager.Pool.Add(callerMenu);
+            MenuManager.StartProcessing();
 
             Caller.Tasks.PlayAnimation(
                 "friends@frj@ig_1",
@@ -168,11 +169,21 @@ namespace EverydayCallouts.Callouts
                 if (Game.IsKeyDown(Keys.Y))
                 {
                     callerconvo.Run();
-                    callerMenu.Visible = true;
-                    CalloutInfoMessages.RNUIMenuOpening();
                     hasTalkedToCaller = true;
+
+                    if (callerMenu.Visible)
+                    {
+                        callerMenu.Visible = false;
+                    }
+                    else if (!UIMenu.IsAnyMenuVisible && !TabView.IsAnyPauseMenuVisible)
+                    {
+                        callerMenu.Visible = true;
+                        CalloutInfoMessages.RNUIMenuOpening();
+
+                    }
                 }
             }
+
         }
 
         public override void End()
@@ -196,6 +207,9 @@ namespace EverydayCallouts.Callouts
                 MenuManager.Pool.Remove(callerMenu);
                 callerMenu = null;
             }
+
+            MenuManager.StopProcessing();
+            CalloutInfoMessages.CalloutCleanedUp();
 
         }
     }
