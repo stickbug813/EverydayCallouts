@@ -1,6 +1,7 @@
-﻿using System;
-using EverydayCallouts.Logging;
+﻿using EverydayCallouts.Logging;
 using Rage;
+using System;
+using System.Collections.Generic;
 
 namespace EverydayCallouts.Engine
 {
@@ -9,16 +10,27 @@ namespace EverydayCallouts.Engine
         public static bool Startup()
         {
 
-            var (success, missing) = DependencyChecker.CheckAll();
+            var dependencies = new List<(string Name, string MinVersion)>
+{
+                ("CalloutInterfaceAPI.dll", "1.0.0.0"),
+                ("CommonDataFramework.dll", "1.0.0.0"),
+                ("RageNativeUI.dll", "1.8.0.0")
+};
+
+            var (success, missing) = DependencyChecker.CheckAll(dependencies);
 
             if (!success)
             {
-                string error = InitializationErrors.MissingDependencies(string.Join(", ", missing));
+                InitializationErrors.MissingDependencies(string.Join(", ", missing));
 
                 return false;
             }
 
             return true;
+
+
         }
+
+
     }
 }

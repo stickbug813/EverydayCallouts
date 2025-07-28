@@ -1,33 +1,74 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using EverydayCallouts.Logging;
+using Rage;
 
 namespace EverydayCallouts.Engine
 {
     internal static class DependencyChecker
     {
-        private static readonly string[] RequiredDlls =
+        public static bool IsAssemblyAvailable(string assemblyName, string minVersion)
         {
-            "CalloutInterfaceAPI.dll",
-            "CommonDataFramework.dll",
-            "RAGENativeUI.dll",
-        };
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
 
-        public static (bool success, List<string> missingDependencies) CheckAll()
-        {
-            string basePath = Directory.GetCurrentDirectory();
-            var missing = new List<string>();
-
-            foreach (var dll in RequiredDlls)
+            string[] searchPaths =
             {
-                string fullPath = Path.Combine(basePath, dll);
+                baseDir,
+                Path.Combine(baseDir, "Plugins"),
+                Path.Combine(baseDir, "Plugins", "LSPDFR")
+            };
+
+            foreach (string path in searchPaths)
+            {
+                string fullPath = Path.Combine(path, assemblyName);
+
                 if (!File.Exists(fullPath))
+                    continue;
+
+                try
                 {
-                    missing.Add(dll);
+                    var assembly = AssemblyName.GetAssemblyName(fullPath);
+                    Version actual = assembly.Version;
+                    Version required = new Version(minVersion);
+
+                    if (actual >= required)
+                    {
+                        InitializationErrors.DependencyFound(assemblyName, actual.ToString());
+                        return true;
+                    }
+
+                    InitializationErrors.DependencyTooOld(assemblyName, actual.ToString(), required.ToString());
+                    return false;
+                }
+                catch (BadImageFormatException)
+                {
+                    InitializationErrors.DependencyInvalid(assemblyName);
+                    return false;
                 }
             }
 
-            bool allGood = missing.Count == 0;
-            return (allGood, missing);
+            InitializationErrors.DependencyMissing(assemblyName);
+            return false;
+        }
+
+        public static (bool success, List<string> missingDependencies) CheckAll(List<(string Name, string MinVersion)> dependencies)
+        {
+            List<string> missing = new();
+
+            foreach (var (name, version) in dependencies)
+            {
+                if (!IsAssemblyAvailable(name, version))
+                {
+                    missing.Add($"{name} (min {version})");
+                }
+            }
+
+            if (missing.Count > 0)
+                InitializationErrors.MissingDependencies(string.Join(", ", missing));
+
+            return (missing.Count == 0, missing);
         }
     }
 }

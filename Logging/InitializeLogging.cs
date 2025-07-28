@@ -17,21 +17,21 @@ namespace EverydayCallouts.Logging
 
         private static void PrintPluginInfo()
         {
-            Game.Console.Print("EverydayCallouts: [PluginInfo]");
-            Game.Console.Print($"EverydayCallouts: [PluginInfo] Version            : {PluginInfo.Version}");
-            Game.Console.Print($"EverydayCallouts: [PluginInfo] Author             : {PluginInfo.Author}");
-            Game.Console.Print("EverydayCallouts: [PluginInfo] -------------------------------------------------------------------------------------------");
+           Game.LogTrivial("EverydayCallouts: [PluginInfo]");
+           Game.LogTrivial($"EverydayCallouts: [PluginInfo] Version            : {PluginInfo.Version}");
+           Game.LogTrivial($"EverydayCallouts: [PluginInfo] Author             : {PluginInfo.Author}");
+           Game.LogTrivial("EverydayCallouts: [PluginInfo] -------------------------------------------------------------------------------------------");
         }
 
         private static void PrintDependencyInfo()
         {
-            Game.Console.Print("EverydayCallouts: [Dependencies]");
+           Game.LogTrivial("EverydayCallouts: [Dependencies]");
 
             PrintDependency("CalloutInterfaceAPI.dll");
             PrintDependency("CommonDataFramework.dll");
             PrintDependency("RageNativeUI.dll");
 
-            Game.Console.Print("EverydayCallouts: [Dependencies] -------------------------------------------------------------------------------------------");
+           Game.LogTrivial("EverydayCallouts: [Dependencies] -------------------------------------------------------------------------------------------");
         }
 
         private static void PrintDependency(string fileName, string expectedVersion = null)
@@ -50,17 +50,17 @@ namespace EverydayCallouts.Logging
             }
 
             if (expectedVersion != null)
-                Game.Console.Print($"EverydayCallouts: [Dependencies] {fileName,-22} : Available ({actualVersion})");
+               Game.LogTrivial($"EverydayCallouts: [Dependencies] {fileName,-22} : Available ({actualVersion})");
             else
-                Game.Console.Print($"EverydayCallouts: [Dependencies] {fileName,-22} : Available");
+               Game.LogTrivial($"EverydayCallouts: [Dependencies] {fileName,-22} : Available");
         }
 
         private static void PrintCalloutRegistrationStatus()
         {
-            Game.Console.Print("EverydayCallouts: [CalloutHandler]");
-            Game.Console.Print("EverydayCallouts: [CalloutHandler] registering callouts...");
-            Game.Console.Print("EverydayCallouts: [CalloutHandler] -> NoiseComplaint");
-            Game.Console.Print("EverydayCallouts: [CalloutHandler] registration complete.");
+           Game.LogTrivial("EverydayCallouts: [CalloutHandler]");
+           Game.LogTrivial("EverydayCallouts: [CalloutHandler] registering callouts...");
+           Game.LogTrivial("EverydayCallouts: [CalloutHandler] -> NoiseComplaint");
+           Game.LogTrivial("EverydayCallouts: [CalloutHandler] registration complete.");
         }
     }
 }

@@ -30,10 +30,14 @@
 		<Reference Include="RageNativeUI">
 			<HintPath>References\RageNativeUI.dll</HintPath>
 		</Reference>
+		<Reference Include="DialogueSystem">
+			<HintPath>DialogueSystem.dll</HintPath>
+		</Reference>
 		<Reference Include="System.Windows.Forms" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	  <PackageReference Include="System.Text.Json" Version="9.0.7" />
 	</ItemGroup>
 
