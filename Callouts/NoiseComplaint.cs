@@ -1,21 +1,21 @@
+using System.Collections.Generic;
+using System.Windows.Forms;
+using Rage;
+using Rage.Native;
+using RAGENativeUI;
+using RAGENativeUI.PauseMenu;
+using LSPD_First_Response.Mod.Callouts;
 using CalloutInterfaceAPI;
 using DialogueSystem.API;
 using DialogueSystem.UI;
 using EverydayCallouts.Engine;
 using EverydayCallouts.Logging;
-using LSPD_First_Response.Mod.Callouts;
-using Rage;
-using RAGENativeUI;
-using RAGENativeUI.PauseMenu;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 
 namespace EverydayCallouts.Callouts
 {
-    [CalloutInterface
-        ("Noise Complaint", CalloutProbability.Medium, "Caller is reporting a loud party happening in an upstairs appartment", "Code 1", "LSPD")
-    ]
+    [CalloutInterfaceAttribute("Noise Complaint", CalloutProbability.High, "Caller is stating their neibhor is playing music to loud", "Code 2", "LSPD")]
+    // [CalloutInterface("Your callout name", CalloutProbability.Medium, "A very useful description", "Code 2", "LSPD")]
 
     public class NoiseComplaint : Callout
     {
@@ -32,6 +32,7 @@ namespace EverydayCallouts.Callouts
         private Vector3 SpawnPoint;
         private Vector4 CallerPos;
         private Vector4 NeighborPos;
+        private Vector3 MarkerPos;
 
         // Dialog / State Tracking
         private Conversation callerconvo;
@@ -39,37 +40,51 @@ namespace EverydayCallouts.Callouts
         private bool hasCallerApproachedPlayer = false;
         private bool hasTalkedToCaller = false;
         private bool hasDisplayedIntroSubtitle = false;
+        private bool okaytospawnNeighbor = false;
+        private bool markerCreated = false;
 
 
-        private List<(Vector4 SpawnPoint, Vector4 CallerSpawn, Vector4 NeighborSpawn)> _spawnGroups =
-            new List<(Vector4, Vector4, Vector4)>
-            {
-                (new Vector4(-1054.59f, -1003.173f, 1.150192f, 110.9069f),
-                new Vector4(-1056.478f, -1000.202f, 1.150192f, 126.4022f),
-                new Vector4(-1054.645f, -999.9692f, 5.41049f, 189.0671f))
-            };
+        private List<(Vector4 SpawnPoint, Vector4 CallerSpawn, Vector4 NeighborSpawn, Vector3 MarkerSpawn)> _spawnGroups =
+            new List<(Vector4, Vector4, Vector4, Vector3)>
+        {
+            (
+            new Vector4(-1054.59f, -1003.173f, 1.150192f, 110.9069f),
+            new Vector4(-1056.478f, -1000.202f, 1.150192f, 126.4022f),
+            new Vector4(-1054.645f, -999.9692f, 5.41049f, 189.0671f),
+            new Vector3(-1055.6067f, -1001.0279f, 5.4005f)
+            )
+        };
 
 
         public override bool OnBeforeCalloutDisplayed()
         {
             Vector3 playerPos = Game.LocalPlayer.Character.Position;
 
-            float closestDistance = float.MaxValue;
-            (Vector4 SpawnPoint, Vector4 CallerSpawn, Vector4 NeighborSpawn) closestGroup = default;
+            (float Distance, (Vector4 SpawnPoint, Vector4 CallerSpawn, Vector4 NeighborSpawn, Vector3 MarkerSpawn) Group) closest =
+            (float.MaxValue, default((Vector4, Vector4, Vector4, Vector3)));
+
 
             foreach (var group in _spawnGroups)
             {
                 Vector3 spawn = new Vector3(group.SpawnPoint.X, group.SpawnPoint.Y, group.SpawnPoint.Z);
                 float distance = playerPos.DistanceTo(spawn);
 
-                if (distance < closestDistance)
+                if (distance < closest.Distance)
                 {
-                    closestDistance = distance;
-                    closestGroup = group;
+                    closest = (distance, group);
                 }
             }
 
-            if (closestDistance > 550f)
+            var closestGroup = closest.Group;
+
+            // Use values from the closest group
+            SpawnPoint = new Vector3(closestGroup.SpawnPoint.X, closestGroup.SpawnPoint.Y, closestGroup.SpawnPoint.Z);
+            CallerPos = closestGroup.CallerSpawn;
+            NeighborPos = closestGroup.NeighborSpawn;
+            MarkerPos = closestGroup.MarkerSpawn;
+
+
+            if (closest.Distance > 550f)
             {
                 return false;
             }
@@ -82,7 +97,7 @@ namespace EverydayCallouts.Callouts
             AddMaximumDistanceCheck(550f, SpawnPoint);
             ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 20f);
 
-            LSPD_First_Response.Mod.API.Functions.PlayScannerAudioUsingPosition("DISPATCH_INTRO CITIZENS_REPORT CRIME_DISTURBING_THE_PEACE IN_OR_ON_POSITION OUTRO", SpawnPoint);
+            LSPD_First_Response.Mod.API.Functions.PlayScannerAudioUsingPosition("DISPATCH_INTRO CITIZENS_REPORT CRIME_DISTURBING_THE_PEACE IN_OR_ON_POSITION UNITS_RESPOND_CODE_02 OUTRO", SpawnPoint);
 
             CalloutPosition = SpawnPoint;
 
@@ -93,16 +108,19 @@ namespace EverydayCallouts.Callouts
         public override bool OnCalloutAccepted()
         {
             Caller = new Ped(new Vector3(CallerPos.X, CallerPos.Y, CallerPos.Z), CallerPos.W);
-            Caller.IsPersistent = true;
-            Caller.CanPlayGestureAnimations = false;
-            Caller.CanPlayAmbientAnimations = false;
-
-            callerconvo = Loader.LoadDialogue("EverydayCallouts/NoiseComplaint/CallerDialogue.json", callerMenu);
 
             if (!Caller.Exists())
             {
                 return false;
             }
+
+            Caller.IsPersistent = true;
+            Caller.CanPlayGestureAnimations = false;
+            Caller.CanPlayAmbientAnimations = false;
+
+            CalloutInfoMessages.PedCreated();
+
+            callerconvo = Loader.LoadDialogue("EverydayCallouts/NoiseComplaint/CallerDialogue.json", callerMenu);
 
             callerconvo.Init();
             MenuManager.Pool.Add(callerMenu);
@@ -132,7 +150,7 @@ namespace EverydayCallouts.Callouts
 
             if (!Caller.Exists())
             {
-
+                CalloutWarnMessages.PedDoesNotExist();
                 End();
                 return;
             }
@@ -169,7 +187,6 @@ namespace EverydayCallouts.Callouts
                 if (Game.IsKeyDown(Keys.Y))
                 {
                     callerconvo.Run();
-                    hasTalkedToCaller = true;
 
                     if (callerMenu.Visible)
                     {
@@ -179,11 +196,78 @@ namespace EverydayCallouts.Callouts
                     {
                         callerMenu.Visible = true;
                         CalloutInfoMessages.RNUIMenuOpening();
-
                     }
                 }
+
+                callerconvo.OnConversationEnded += (s, e) => { hasTalkedToCaller = true; };
             }
 
+            if (!callerMenu.Visible && hasTalkedToCaller && Caller.Position.DistanceTo(new Vector3(CallerPos.X, CallerPos.Y, CallerPos.Z)) > 1.0f)
+            {
+                Caller.Tasks.Clear();
+                Caller.Tasks.GoStraightToPosition(
+                    new Vector3(CallerPos.X, CallerPos.Y, CallerPos.Z),
+                    0.9f,
+                    CallerPos.W,
+                    0.5f,
+                    10000
+                );
+            }
+
+            if (hasTalkedToCaller && !Neighbor.Exists())
+            {
+                if (!markerCreated)
+                {
+                    CalloutInfoMessages.CreatingMarker();
+                    markerCreated = true;
+                }
+
+                NativeFunction.Natives.DrawMarker(
+                    1,
+                    MarkerPos.X, MarkerPos.Y, MarkerPos.Z,
+                    0f, 0f, 0f,
+                    0f, 0f, 0f,
+                    1.0f, 1.0f, 1.0f,
+                    255, 0, 0, 255,
+                    false, true, 2, false, 0, 0, false
+                );
+            }
+
+            if (Game.LocalPlayer.Character.Position.DistanceTo(MarkerPos) < 2.0f && hasTalkedToCaller && !okaytospawnNeighbor)
+            {
+                Game.LogTrivial("[EverydayCallouts] Player has reached the marker, spawning neighbor."); // Debug Temporary
+                Game.FadeScreenOut(1000);
+                GameFiber.Sleep(1000);
+
+                okaytospawnNeighbor = true;
+            }
+
+
+            if (hasTalkedToCaller && !Neighbor.Exists() && okaytospawnNeighbor)
+            {
+
+                Neighbor = new Ped(new Vector3(NeighborPos.X, NeighborPos.Y, NeighborPos.Z), NeighborPos.W);
+                
+                if (!Neighbor.Exists())
+                {
+                    CalloutWarnMessages.FailedToCreatePed();
+                    End();
+                    return;
+                }
+
+                Neighbor.IsPersistent = true;
+                Neighbor.CanPlayGestureAnimations = false;
+                Neighbor.CanPlayAmbientAnimations = false;
+                NeighborBlip = Neighbor.AttachBlip();
+                NeighborBlip.Color = System.Drawing.Color.Red;
+                NeighborBlip.Name = "Neighbor";
+
+                CalloutInfoMessages.PedCreated();
+
+                GameFiber.Sleep(500);
+                Game.FadeScreenIn(1000);
+
+            }
         }
 
         public override void End()
@@ -192,9 +276,18 @@ namespace EverydayCallouts.Callouts
 
             if (Caller.Exists())
             {
+                Caller.IsPersistent = true;
                 Caller.Tasks.Clear();
                 Caller.Dismiss();
                 CallerBlip.Delete();
+            }
+
+            if (Neighbor.Exists())
+            {
+                Neighbor.IsPersistent = false;
+                Neighbor.Tasks.Clear();
+                Neighbor.Dismiss();
+                NeighborBlip.Delete();
             }
 
             if (calloutBlip.Exists())
