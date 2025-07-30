@@ -7,14 +7,11 @@ public class EntryPoint : Plugin
 {
     public override void Initialize()
     {
-        bool success = Initialization.Startup();
-
-        if (!success)
+        if (!Initialization.Startup())
         {
             return;
         }
 
-        InitializeLogging.PrintStartupInfo();
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
     }
 

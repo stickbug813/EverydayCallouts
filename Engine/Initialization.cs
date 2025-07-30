@@ -1,4 +1,5 @@
-﻿using EverydayCallouts.Logging;
+﻿using EverydayCallouts.Info;
+using EverydayCallouts.Logging;
 using Rage;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,15 @@ namespace EverydayCallouts.Engine
 
                 return false;
             }
+            InitializeLogging.PrintStartupInfo();
+
+            Game.DisplayNotification(
+                "CHAR_CALL911",                         // textureDictionaryName
+                "CHAR_CALL911",                         // textureName
+                "EverydayCallouts",                 // title (blue color tag)
+                $"By ~b~{PluginInfo.Author}~s~", // subtitle
+                $"Everyday Callouts ~g~loaded successfully~s~! Enjoy your patrol!\nVersion: ~g~{PluginInfo.Version}" // message
+            );
 
             return true;
 

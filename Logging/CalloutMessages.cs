@@ -10,7 +10,25 @@ namespace EverydayCallouts.Logging
 
         public static void FailedToCreatePed(){ Game.LogTrivial("[EverydayCallouts] Failed to create Ped. Callout will now end."); }
 
-        
+        public static void RageExceptionsInvalidHandleableException(string message)
+        {
+            string msg = $"[EverydayCallouts] Caught InvalidHandleableException: {message}";
+            Game.LogTrivial(msg);
+        }
+
+        public static void RageExceptionsUnknown(string message)
+        {
+            string msg = $"[EverydayCallouts] Caught unknown error message: {message}";
+            Game.LogTrivial(msg);
+
+            Game.DisplayNotification(
+                "CHAR_CALL911",                         
+                "CHAR_CALL911",                    
+                "EverydayCallouts",                 
+                $"~r~Error Detected~s~",
+                "GTA V caused an ~r~error~s~ but we stopped the crash. Sorry about this! "
+            );
+        }
 
     }
 
